@@ -12,41 +12,116 @@
 \begin{document}
 \maketitle
 
+
 \section{Kaj je zaporedje?}
 
-\textbf{Zaporedje} je urejen seznam števil, pri katerem je vsakemu naravnemu številu $n$ prirejen člen $a_n$. Člene označujemo z $a_1, a_2, a_3, \ldots$, kjer je $a_1$ prvi člen, $a_n$ pa splošni člen.
+Zaporedje je urejen seznam števil, pri katerem je vsakemu naravnemu številu $n$ prirejen člen $a_n$. Člene označujemo z $a_1, a_2, a_3, \ldots$, kjer je $a_1$ prvi člen, $a_n$ pa splošni člen.
 
 Zaporedje lahko podamo:
 \begin{itemize}
-    \item \textbf{z naštevanjem členov}, na primer $2, 5, 8, 11, \ldots$;
-    \item \textbf{s splošnim členom}, na primer $a_n=3n-1$;
+    \item \textbf{z} \textbf{naštevanjem} \textbf{členov}, na primer $2, 5, 8, 11, \ldots$;
+    \item \textbf{s} \textbf{splošnim} \textbf{členom}, na primer $a_n=3n-1$;
     \item \textbf{rekurzivno}, tako da določimo začetni člen in pravilo za izračun naslednjega, na primer $a_1=2$ in $a_{n+1}=a_n+3$.
 \end{itemize}
 
+\section{Kako prepoznamo lastnosti zaporedja?}
+
+Zaporedje lahko poleg oblike in formule opisujemo tudi po tem, kako se njegovi členi spreminjajo. Pomembna sta pojma naraščanje in padajoče. 
+
+Zaporedje je:
+\begin{itemize}
+    \item \textbf{naraščajoče}, če velja $a_{n+1} > a_n$ za vse $n$;
+    \item \textbf{padajoče}, če velja $a_{n+1} < a_n$ za vse $n$;
+    \item \textbf{nepadajoče}, če velja $a_{n+1} \ge a_n$;
+    \item \textbf{nerastejoče}, če velja $a_{n+1} \le a_n$;
+    \item \textbf{konstantno}, če velja $a_{n+1}=a_n$ za vse $n$.
+\end{itemize}
+
+Na primer: zaporedje $2, 5, 8, 11, \ldots$ je naraščajoče, saj se vsak naslednji člen poveča za $3$. Zaporedje $20, 17, 14, 11, \ldots$ je padajoče, saj se vsak naslednji člen zmanjša za $3$.
+
+\medskip
+
+Zaporedje je lahko tudi \textbf{omejeno}. To pomeni, da so vsi členi zaporedja med dvema številoma. Če obstajata $m$ in $M$, da je $m \le a_n \le M$ za vse $n$, potem je zaporedje \textbf{omejeno}. Če izbranih meja ni, je zaporedje neomejeno.
+
+\medskip
+
+Na primer: zaporedje $1, \frac12, \frac13, \frac14, \ldots$ je omejeno, ker so vsi členi pozitivni in ne presegajo $1$. Zaporedje $1, 2, 3, 4, \ldots$ pa je neomejeno.
+
+\section{Kako narišemo zaporedje?}
+
+Zaporedje lahko grafično predstavimo na dva načina:
+\begin{itemize}
+    \item v koordinatni ravnini narišemo točke $(n, a_n)$;
+    \item kot posamezne točke na številski premici, če nas zanima samo razporeditev členov.
+\end{itemize}
+
+V koordinatni ravnini je abscisa $n$ (mesto člena), ordinata pa $a_n$ (velikost člena). Če je zaporedje naraščajoče, so točke od leve proti desni višje; če je padajoče, so nižje. Če je zaporedje omejeno, se vse točke nahajajo v nekem pasu med dvema vrednostima.
+
+Primer: zaporedje $a_n = 2n-1$ daje člene $1, 3, 5, 7, \ldots$. Točke $(1,1), (2,3), (3,5), \ldots$ ležijo na premici, zato je graf tega zaporedja del premice. Pri zaporedju $a_n = \frac{1}{n}$ pa točke $(1,1), (2,\tfrac12), (3,\tfrac13), \ldots$ padajo proti nič.
+
+\begin{center}
+\setlength{\unitlength}{0.55cm}
+\begin{picture}(7,11)
+    \put(0,0){\vector(1,0){6}}
+    \put(0,0){\vector(0,1){10}}
+    \put(6.1,-0.2){$n$}
+    \put(-0.4,10.2){$a_n$}
+    \put(1,-0.35){\makebox(0,0){$1$}}
+    \put(2,-0.35){\makebox(0,0){$2$}}
+    \put(3,-0.35){\makebox(0,0){$3$}}
+    \put(4,-0.35){\makebox(0,0){$4$}}
+    \put(5,-0.35){\makebox(0,0){$5$}}
+    \put(-0.3,1){\makebox(0,0)[r]{$1$}}
+    \put(-0.3,3){\makebox(0,0)[r]{$3$}}
+    \put(-0.3,5){\makebox(0,0)[r]{$5$}}
+    \put(-0.3,7){\makebox(0,0)[r]{$7$}}
+    \put(-0.3,9){\makebox(0,0)[r]{$9$}}
+    \put(1,1){\circle*{0.18}}
+    \put(2,3){\circle*{0.18}}
+    \put(3,5){\circle*{0.18}}
+    \put(4,7){\circle*{0.18}}
+    \put(5,9){\circle*{0.18}}
+\end{picture}
+
+\vspace{0.5cm}
+
+Graf zaporedja $a_n=2n-1$; narisani so posamezni členi zaporedja.
+\end{center}
+
 \section{Aritmetično zaporedje}
 
-Zaporedje je \textbf{aritmetično}, kadar je razlika med zaporednima členoma vedno enaka. To stalno razliko imenujemo \textbf{diferenca} $d$:
+Zaporedje je aritmetično, kadar je razlika med zaporednima členoma vedno enaka. To stalno razliko imenujemo diferencia $d$:
 \[
     d=a_{n+1}-a_n.
 \]
 
-Splošni člen in vsota prvih $n$ členov:
+Splošni člen:
 \[
-    a_n=a_1+(n-1)d, \qquad S_n=\frac{n(a_1+a_n)}{2}.
+    a_n=a_1+(n-1)d.
 \]
 
-\textbf{Primer:} Zaporedje $4, 7, 10, 13, \ldots$ ima $a_1=4$ in $d=3$. Zato je $a_n=4+3(n-1)=3n+1$. Deseti člen je $a_{10}=31$, vsota prvih desetih členov pa $S_{10}=\frac{10(4+31)}{2}=175$.
+Vsota prvih $n$ členov:
+\[
+    S_n=\frac{n(a_1+a_n)}{2}.
+\]
+
+Primer: Zaporedje $4, 7, 10, 13, \ldots$ ima $a_1=4$ in $d=3$. Zato je $a_n=4+3(n-1)=3n+1$. Deseti člen je $a_{10}=31$, vsota prvih desetih členov pa $S_{10}=\frac{10(4+31)}{2}=175$.
 
 \section{Geometrijsko zaporedje}
 
-Zaporedje je \textbf{geometrijsko}, kadar je količnik zaporednih členov vedno enak. Ta stalni količnik imenujemo \textbf{kvocient} $q$:
+Zaporedje je geometrijsko, kadar je količnik zaporednih členov vedno enak. Ta stalni količnik imenujemo kvocient $q$:
 \[
     q=\frac{a_{n+1}}{a_n} \quad (a_n\ne 0).
 \]
 
-Splošni člen in vsota prvih $n$ členov:
+Splošni člen:
 \[
-    a_n=a_1q^{n-1}, \qquad S_n=a_1\frac{1-q^n}{1-q} \quad (q\ne1).
+    a_n=a_1q^{n-1}.
+\]
+
+Vsota prvih $n$ členov, kadar je $q\ne1$:
+\[
+    S_n=a_1\frac{1-q^n}{1-q}.
 \]
 
 Če je $q=1$, je $S_n=na_1$. Vsota neskončnega geometrijskega zaporedja obstaja, kadar je $|q|<1$:
@@ -54,7 +129,23 @@ Splošni člen in vsota prvih $n$ členov:
     S_\infty=\frac{a_1}{1-q}.
 \]
 
-\textbf{Primer:} Zaporedje $3, 6, 12, 24, \ldots$ ima $a_1=3$ in $q=2$. Peti člen je $a_5=3\cdot2^4=48$, vsota prvih petih členov pa $S_5=3\frac{1-2^5}{1-2}=93$.
+Primer: Zaporedje $3, 6, 12, 24, \ldots$ ima $a_1=3$ in $q=2$. Peti člen je $a_5=3\cdot2^4=48$, vsota prvih petih členov pa $S_5=3\frac{1-2^5}{1-2}=93$.
+
+\section{Limita zaporedja}
+
+Limita zaporedja je število, h kateremu se členi zaporedja približujejo, ko se $n$ povečuje. Če se členi približujejo številu $L$, rečemo, da zaporedje konvergira k $L$, in zapišemo:
+\[
+    \lim_{n\to\infty} a_n=L.
+\]
+
+To pomeni, da lahko členi zaporedja postanejo poljubno blizu številu $L$, če izberemo dovolj veliko mesto $n$. Členi pri tem niso nujno enaki $L$.
+
+Primer: Pri zaporedju $a_n=\frac{1}{n}$ so členi $1, \frac12, \frac13, \frac14, \ldots$ vedno bližje številu $0$. Zato je
+\[
+    \lim_{n\to\infty}\frac{1}{n}=0.
+\]
+
+Zaporedje, ki se ne približuje nobenemu končnemu številu, nima končne limite. Na primer, členi zaporedja $1, 2, 3, 4, \ldots$ naraščajo brez meje.
 
 \section{Kako rešujemo naloge?}
 
@@ -65,7 +156,7 @@ Splošni člen in vsota prvih $n$ členov:
     \item Smiselno preveri rezultat, na primer tako, da iz splošnega člena izračunaš nekaj začetnih členov.
 \end{enumerate}
 
-\textbf{Primer določanja splošnega člena:} Aritmetično zaporedje ima $a_1=5$ in $d=-2$. Potem je
+Primer določanja splošnega člena: Aritmetično zaporedje ima $a_1=5$ in $d=-2$. Potem je
 \[
     a_n=5+(n-1)(-2)=7-2n.
 \]
