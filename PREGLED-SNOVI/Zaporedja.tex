@@ -4,9 +4,10 @@
 \usepackage[T1]{fontenc}
 \usepackage[slovenian]{babel}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage[a4paper,margin=2.5cm]{geometry}
 
-\title{Pregled snovi: zaporedja}
+\title{ZAPOREDJA}
 \date{}
 
 \begin{document}
@@ -15,7 +16,7 @@
 
 \section{Kaj je zaporedje?}
 
-Zaporedje je urejen seznam števil, pri katerem je vsakemu naravnemu številu $n$ prirejen člen $a_n$. Člene označujemo z $a_1, a_2, a_3, \ldots$, kjer je $a_1$ prvi člen, $a_n$ pa splošni člen.
+Zaporedje je urejen seznam števil, pri katerem je vsakemu naravnemu številu $n$ prirejen člen $a_n$. V tem pregledu privzamemo, da je $n\in\mathbb{N} = \{1,2,3,\ldots\}$. Člene označujemo z $a_1, a_2, a_3, \ldots$, kjer je $a_1$ prvi člen, $a_n$ pa splošni člen.
 
 Zaporedje lahko podamo:
 \begin{itemize}
@@ -26,7 +27,7 @@ Zaporedje lahko podamo:
 
 \section{Kako prepoznamo lastnosti zaporedja?}
 
-Zaporedje lahko poleg oblike in formule opisujemo tudi po tem, kako se njegovi členi spreminjajo. Pomembna sta pojma naraščanje in padajoče. 
+Zaporedje lahko poleg oblike in formule opisujemo tudi po tem, kako se njegovi členi spreminjajo. Pomembna sta pojma naraščanje in padanje.
 
 Zaporedje je:
 \begin{itemize}
@@ -41,7 +42,7 @@ Na primer: zaporedje $2, 5, 8, 11, \ldots$ je naraščajoče, saj se vsak nasled
 
 \medskip
 
-Zaporedje je lahko tudi \textbf{omejeno}. To pomeni, da so vsi členi zaporedja med dvema številoma. Če obstajata $m$ in $M$, da je $m \le a_n \le M$ za vse $n$, potem je zaporedje \textbf{omejeno}. Če izbranih meja ni, je zaporedje neomejeno.
+Zaporedje je lahko tudi \textbf{omejeno}. To pomeni, da so vsi členi zaporedja med dvema številoma. Če obstajata $m$ in $M$, da je $m \le a_n \le M$ za vse $n$, potem je zaporedje \textbf{omejeno}. Če ne obstajata taki števili $m$ in $M$, je zaporedje neomejeno.
 
 \medskip
 
@@ -57,7 +58,7 @@ Zaporedje lahko grafično predstavimo na dva načina:
 
 V koordinatni ravnini je abscisa $n$ (mesto člena), ordinata pa $a_n$ (velikost člena). Če je zaporedje naraščajoče, so točke od leve proti desni višje; če je padajoče, so nižje. Če je zaporedje omejeno, se vse točke nahajajo v nekem pasu med dvema vrednostima.
 
-Primer: zaporedje $a_n = 2n-1$ daje člene $1, 3, 5, 7, \ldots$. Točke $(1,1), (2,3), (3,5), \ldots$ ležijo na premici, zato je graf tega zaporedja del premice. Pri zaporedju $a_n = \frac{1}{n}$ pa točke $(1,1), (2,\tfrac12), (3,\tfrac13), \ldots$ padajo proti nič.
+Primer: zaporedje $a_n = 2n-1$ daje člene $1, 3, 5, 7, \ldots$. Točke $(1,1), (2,3), (3,5), \ldots$ ležijo na isti premici, vendar graf zaporedja sestavljajo le te posamezne točke. Pri zaporedju $a_n = \frac{1}{n}$ pa točke $(1,1), (2,\tfrac12), (3,\tfrac13), \ldots$ padajo proti nič.
 
 \begin{center}
 \setlength{\unitlength}{0.55cm}
@@ -90,7 +91,7 @@ Graf zaporedja $a_n=2n-1$; narisani so posamezni členi zaporedja.
 
 \section{Aritmetično zaporedje}
 
-Zaporedje je aritmetično, kadar je razlika med zaporednima členoma vedno enaka. To stalno razliko imenujemo diferencia $d$:
+Zaporedje je aritmetično, kadar je razlika med zaporednima členoma vedno enaka. To stalno razliko imenujemo diferenca $d$:
 \[
     d=a_{n+1}-a_n.
 \]
@@ -100,12 +101,16 @@ Splošni člen:
     a_n=a_1+(n-1)d.
 \]
 
+V formuli se pojavi $n-1$, ker od prvega člena do člena na mestu $n$ naredimo $n-1$ korakov. Na primer, do petega člena naredimo štiri korake.
+
 Vsota prvih $n$ členov:
 \[
     S_n=\frac{n(a_1+a_n)}{2}.
 \]
 
 Primer: Zaporedje $4, 7, 10, 13, \ldots$ ima $a_1=4$ in $d=3$. Zato je $a_n=4+3(n-1)=3n+1$. Deseti člen je $a_{10}=31$, vsota prvih desetih členov pa $S_{10}=\frac{10(4+31)}{2}=175$.
+
+Če je diferenca negativna, zaporedje pada. Na primer, pri zaporedju $12, 8, 4, 0, -4, \ldots$ je $d=-4$, zato je $a_n=12+(n-1)(-4)=16-4n$.
 
 \section{Geometrijsko zaporedje}
 
@@ -119,6 +124,8 @@ Splošni člen:
     a_n=a_1q^{n-1}.
 \]
 
+Tudi tu se pojavi $n-1$, saj prvi člen še ne vsebuje nobenega množenja s kvocientom: $a_1=a_1q^0$.
+
 Vsota prvih $n$ členov, kadar je $q\ne1$:
 \[
     S_n=a_1\frac{1-q^n}{1-q}.
@@ -130,6 +137,10 @@ Vsota prvih $n$ členov, kadar je $q\ne1$:
 \]
 
 Primer: Zaporedje $3, 6, 12, 24, \ldots$ ima $a_1=3$ in $q=2$. Peti člen je $a_5=3\cdot2^4=48$, vsota prvih petih členov pa $S_5=3\frac{1-2^5}{1-2}=93$.
+
+Kvocient je lahko tudi negativen. Zaporedje $16, -8, 4, -2, 1, \ldots$ ima $q=-\frac12$ in splošni člen $a_n=16\left(-\frac12\right)^{n-1}$. Predznaki členov se izmenjujejo.
+
+Zaporedje ni nujno aritmetično ali geometrijsko. To preverimo tako, da primerjamo razlike sosednjih členov oziroma količnike sosednjih členov (kadar so imenovalci neničelni). Na primer, pri zaporedju $1, 2, 4, 7, 11, \ldots$ so razlike $1, 2, 3, 4, \ldots$, zato ni aritmetično; količniki pa so $2, 2, \frac74, \ldots$, zato ni niti geometrijsko.
 
 \section{Limita zaporedja}
 
@@ -147,7 +158,11 @@ Primer: Pri zaporedju $a_n=\frac{1}{n}$ so členi $1, \frac12, \frac13, \frac14,
 
 Zaporedje, ki se ne približuje nobenemu končnemu številu, nima končne limite. Na primer, členi zaporedja $1, 2, 3, 4, \ldots$ naraščajo brez meje.
 
+Zaporedje pa lahko tudi ostaja omejeno in hkrati nima limite. Na primer, zaporedje $a_n=(-1)^n$ izmenično zavzame vrednosti $-1$ in $1$, zato se njegovi členi ne približujejo enemu samemu številu.
+
 \section{Kako rešujemo naloge?}
+
+\subsection*{Osnovne naloge o zaporedjih}
 
 \begin{enumerate}
     \item Iz podatkov določi prvi člen $a_1$ in preveri, ali je zaporedje aritmetično (stalna razlika) ali geometrijsko (stalni količnik).
@@ -160,6 +175,55 @@ Primer določanja splošnega člena: Aritmetično zaporedje ima $a_1=5$ in $d=-2
 \[
     a_n=5+(n-1)(-2)=7-2n.
 \]
+
+\subsection*{Naloge z grafom zaporedja}
+
+\begin{enumerate}
+    \item Izračunaj nekaj začetnih členov zaporedja.
+    \item V koordinatni ravnini označi točke $(n,a_n)$: $n$ je na vodoravni, $a_n$ pa na navpični osi.
+    \item Izberi ustrezno merilo na oseh in označi posamezne točke. Točk ne povezuješ, saj graf zaporedja sestavljajo diskretne točke.
+    \item Iz razporeditve točk opiši, ali zaporedje narašča, pada ali se približuje določeni vrednosti.
+\end{enumerate}
+
+Na primer, za $a_n=\frac{1}{n}$ označimo točke $(1,1)$, $(2,\frac12)$, $(3,\frac13)$ in tako naprej. Točke se približujejo vodoravni osi, vendar ležijo nad njo.
+
+\subsection*{Naloge o omejenosti}
+
+Preveri, ali lahko najdeš števili $m$ in $M$, med katerima ležijo vsi členi:
+\[
+    m \le a_n \le M \qquad \text{za vsak } n\in\mathbb{N}.
+\]
+Pri iskanju mej uporabi predpis zaporedja. Na primer, za $a_n=\frac1n$ velja $0<a_n\le1$, zato je zaporedje omejeno. Za $a_n=n$ zgornje meje ni: za vsako izbrano število $M$ lahko izberemo dovolj velik $n$, da je $a_n>M$; zaporedje je neomejeno.
+
+\subsection*{Naloge o limiti}
+
+Pri določanju limite razmisli, kaj se s členom dogaja, ko $n$ neomejeno narašča:
+\begin{enumerate}
+    \item Preveri, ali se členi približujejo enemu številu. Če se, to število zapiši kot limito.
+    \item Uporabi znane primere, na primer $\frac1n\to0$ in geometrijsko zaporedje z $|q|<1$, ki se približuje $0$.
+    \item Loči med neomejenim zaporedjem, ki narašča brez meje, in omejenim zaporedjem, ki niha. Nihajoče zaporedje, kot je $a_n=(-1)^n$, nima limite.
+\end{enumerate}
+
+Na primer, pri $a_n=3+\frac2n$ člen $\frac2n$ teži k $0$, zato je $\lim_{n\to\infty}a_n=3$. Pri $a_n=n$ členi naraščajo brez meje, zato zaporedje nima končne limite.
+
+\section{Vaje za samostojno delo}
+
+Za vsako zaporedje določi, ali je naraščajoče, padajoče ali ni monotono; ali je omejeno; in če ima limito, jo izračunaj.
+
+\begin{enumerate}
+    \item $a_n=2n-1$
+    \item $a_n=\frac{1}{n}$
+    \item $a_n=(-1)^n$
+    \item $a_n=1-\frac{1}{n}$
+\end{enumerate}
+
+\textbf{Rešitve za preverjanje:}
+\begin{itemize}
+    \item 1. Naraščajoče in neomejeno; nima končne limite.
+    \item 2. Padajoče in omejeno ($0<a_n\le1$); limita je $0$.
+    \item 3. Ni monotono in je omejeno ($-1\le a_n\le1$); nima limite.
+    \item 4. Naraščajoče in omejeno ($0\le a_n<1$); limita je $1$.
+\end{itemize}
 
 \section*{Na kratko}
 
