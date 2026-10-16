@@ -184,75 +184,92 @@ Zaporedje lahko grafično predstavimo na dva načina:
 
 \section{Aritmetično zaporedje}
 
-Zaporedje je aritmetično, kadar je razlika med zaporednima členoma vedno enaka. To stalno razliko imenujemo diferenca $d$:
+Zaporedje je \textcolor{darkblue}{\textbf{aritmetično}}, kadar je razlika med zaporednima členoma konstantna. To stalno razliko imenujemo \textcolor{darkblue}{\textbf{diferenca $d$}}:
 \[
-    d=a_{n+1}-a_n.
+    \colorbox{blue!15}{$d=a_{n+1}-a_n$}
 \]
 
-Splošni člen:
+\textcolor{darkblue}{\textbf{Splošni člen aritmetičnega zaporedja}}:
 \[
-    a_n=a_1+(n-1)d.
+    \colorbox{blue!15}{$a_n=a_1+(n-1)d$}
 \]
+
+\medskip
 
 V formuli se pojavi $n-1$, ker od prvega člena do člena na mestu $n$ naredimo $n-1$ korakov. Na primer, do petega člena naredimo štiri korake.
 
-Vsota prvih $n$ členov:
+\medskip
+
+\textcolor{darkblue}{\textbf{Vsota prvih $n$ členov}}:
 \[
-    S_n=\frac{n(a_1+a_n)}{2}.
+    \colorbox{blue!15}{$S_n=\frac{n(a_1+a_n)}{2}$}
 \]
 
-Primer: Zaporedje $4, 7, 10, 13, \ldots$ ima $a_1=4$ in $d=3$. Zato je $a_n=4+3(n-1)=3n+1$. Deseti člen je $a_{10}=31$, vsota prvih desetih členov pa $S_{10}=\frac{10(4+31)}{2}=175$.
-
-Če je diferenca negativna, zaporedje pada. Na primer, pri zaporedju $12, 8, 4, 0, -4, \ldots$ je $d=-4$, zato je $a_n=12+(n-1)(-4)=16-4n$.
+\textcolor{darkgreen}{\textbf{Primera:}}
+\begin{itemize}
+    \item Zaporedje $4, 7, 10, 13, \ldots$ ima $a_1=4$ in $d=3$. Zato je $a_n=4+3(n-1)=3n+1$. Deseti člen je $a_{10}=31$, vsota prvih desetih členov pa $S_{10}=\frac{10(4+31)}{2}=175$.
+    \item \textcolor{darkgreen}{Če je diferenca negativna, zaporedje pada.} Pri zaporedju $12, 8, 4, 0, -4, \ldots$ je $d=-4$, zato je $a_n=12+(n-1)(-4)=16-4n$.
+\end{itemize}
 
 \section{Geometrijsko zaporedje}
 
-Zaporedje je geometrijsko, kadar je količnik zaporednih členov vedno enak. Ta stalni količnik imenujemo kvocient $q$:
+Zaporedje je \textcolor{darkblue}{\textbf{geometrijsko}}, kadar je količnik zaporednih členov vedno enak. Ta stalni količnik imenujemo \textcolor{darkblue}{\textbf{kvocient $q$}}:
 \[
-    q=\frac{a_{n+1}}{a_n} \quad (a_n\ne 0).
+    \colorbox{blue!15}{$q=\frac{a_{n+1}}{a_n} \quad (a_n\ne 0)$}
 \]
 
-Splošni člen:
+\textcolor{darkblue}{\textbf{Splošni člen geometrijskega zaporedja}}:
 \[
-    a_n=a_1q^{n-1}.
+    \colorbox{blue!15}{$a_n=a_1q^{n-1}$}
 \]
-
 Tudi tu se pojavi $n-1$, saj prvi člen še ne vsebuje nobenega množenja s kvocientom: $a_1=a_1q^0$.
 
-Vsota prvih $n$ členov, kadar je $q\ne1$:
+\medskip
+
+\textcolor{darkblue}{\textbf{Vsota prvih $n$ členov, kadar je $q\ne1$}}:
 \[
-    S_n=a_1\frac{1-q^n}{1-q}.
+    \colorbox{blue!15}{$S_n=a_1\frac{1-q^n}{1-q}$}
 \]
 
-Če je $q=1$, je $S_n=na_1$. Vsota neskončnega geometrijskega zaporedja obstaja, kadar je $|q|<1$:
+Če je \textcolor{darkblue}{\textbf{$q=1$}}, je \colorbox{blue!15}{$S_n=na_1$}. Vsota neskončnega geometrijskega zaporedja obstaja, kadar je \textcolor{darkblue}{\textbf{$|q|<1$:}}
 \[
-    S_\infty=\frac{a_1}{1-q}.
+    \colorbox{blue!15}{$S_\infty=\frac{a_1}{1-q}$}
 \]
 
-Primer: Zaporedje $3, 6, 12, 24, \ldots$ ima $a_1=3$ in $q=2$. Peti člen je $a_5=3\cdot2^4=48$, vsota prvih petih členov pa $S_5=3\frac{1-2^5}{1-2}=93$.
+\medskip
 
-Kvocient je lahko tudi negativen. Zaporedje $16, -8, 4, -2, 1, \ldots$ ima $q=-\frac12$ in splošni člen $a_n=16\left(-\frac12\right)^{n-1}$. Predznaki členov se izmenjujejo.
+\textcolor{darkgreen}{\textbf{Primera:}} 
+\begin{itemize}
+    \item Zaporedje $3, 6, 12, 24, \ldots$ ima $a_1=3$ in $q=2$. Peti člen je $a_5=3\cdot2^4=48$, vsota prvih petih členov pa $S_5=3\frac{1-2^5}{1-2}=93$.
+    \item \textcolor{darkgreen}{Kvocient je lahko tudi negativen.} Zaporedje $16, -8, 4, -2, 1, \ldots$ ima $q=-\frac12$ in splošni člen $a_n=16\left(-\frac12\right)^{n-1}$. \textcolor{darkgreen}{Predznaki členov se izmenjujejo.}
+\end{itemize}
 
-Zaporedje ni nujno aritmetično ali geometrijsko. To preverimo tako, da primerjamo razlike sosednjih členov oziroma količnike sosednjih členov (kadar so imenovalci neničelni). Na primer, pri zaporedju $1, 2, 4, 7, 11, \ldots$ so razlike $1, 2, 3, 4, \ldots$, zato ni aritmetično; količniki pa so $2, 2, \frac74, \ldots$, zato ni niti geometrijsko.
+\noindent\fcolorbox{darkred}{white}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{
+\textcolor{darkred}{\textbf{Zaporedje ni nujno aritmetično ali geometrijsko.}} To preverimo tako, da primerjamo razlike sosednjih členov oziroma količnike sosednjih členov (kadar so imenovalci neničelni). Na primer, pri zaporedju $1, 2, 4, 7, 11, \ldots$ so razlike $1, 2, 3, 4, \ldots$, zato ni aritmetično; količniki pa so $2, 2, \frac74, \ldots$, zato ni niti geometrijsko.
+}}
 
 \section{Limita zaporedja}
 
-Limita zaporedja je število, h kateremu se členi zaporedja približujejo, ko se $n$ povečuje. Če se členi približujejo številu $L$, rečemo, da zaporedje konvergira k $L$, in zapišemo:
+\textcolor{darkblue}{\textbf{Limita zaporedja}} je število, h kateremu se členi zaporedja približujejo, ko se $n$ povečuje. Če se \textcolor{darkblue}{\textbf{členi približujejo številu $L$}}, rečemo, da \textcolor{darkblue}{\textbf{zaporedje konvergira k $L$}}, in zapišemo:
 \[
-    \lim_{n\to\infty} a_n=L.
+    \colorbox{blue!15}{$\lim_{n\to\infty} a_n=L$}
 \]
 
-To pomeni, da lahko členi zaporedja postanejo poljubno blizu številu $L$, če izberemo dovolj veliko mesto $n$. Členi pri tem niso nujno enaki $L$.
+To pomeni, da lahko členi zaporedja postanejo poljubno blizu številu $L$, če izberemo dovolj velik $n$. Členi pri tem niso nujno enaki $L$.
 
-Primer: Pri zaporedju $a_n=\frac{1}{n}$ so členi $1, \frac12, \frac13, \frac14, \ldots$ vedno bližje številu $0$. Zato je
+\medskip
+
+\textcolor{darkgreen}{\textbf{Primeri:}} 
+\begin{itemize}
+    \item Pri zaporedju $a_n=\frac{1}{n}$ so členi $1, \frac12, \frac13, \frac14, \ldots$ vedno bližje številu $0$. Zato je
 \[
     \lim_{n\to\infty}\frac{1}{n}=0.
 \]
 
-Zaporedje, ki se ne približuje nobenemu končnemu številu, nima končne limite. Na primer, členi zaporedja $1, 2, 3, 4, \ldots$ naraščajo brez meje.
+    \item Zaporedje, ki se ne približuje nobenemu končnemu številu, nima limite. Na primer, členi zaporedja $1, 2, 3, 4, \ldots$ naraščajo brez meje.
 
-Zaporedje pa lahko tudi ostaja omejeno in hkrati nima limite. Na primer, zaporedje $a_n=(-1)^n$ izmenično zavzame vrednosti $-1$ in $1$, zato se njegovi členi ne približujejo enemu samemu številu.
-
+    \item Zaporedje pa lahko tudi ostaja omejeno in hkrati nima limite. Na primer, zaporedje $a_n=(-1)^n$ izmenično zavzame vrednosti $-1$ in $1$, zato se njegovi členi ne približujejo enemu samemu številu.
+\end{itemize}
 \section{Kako rešujemo naloge?}
 
 \subsection*{Osnovne naloge o zaporedjih}
@@ -297,7 +314,11 @@ Pri določanju limite razmisli, kaj se s členom dogaja, ko $n$ neomejeno naraš
     \item Loči med neomejenim zaporedjem, ki narašča brez meje, in omejenim zaporedjem, ki niha. Nihajoče zaporedje, kot je $a_n=(-1)^n$, nima limite.
 \end{enumerate}
 
-Na primer, pri $a_n=3+\frac2n$ člen $\frac2n$ teži k $0$, zato je $\lim_{n\to\infty}a_n=3$. Pri $a_n=n$ členi naraščajo brez meje, zato zaporedje nima končne limite.
+Na primer, pri $a_n=3+\frac2n$ člen $\frac2n$ teži k $0$, zato je
+\[
+    \lim_{n\to\infty}a_n=3.
+\]
+Pri $a_n=n$ členi naraščajo brez meje, zato zaporedje nima končne limite.
 
 % \section{Vaje za samostojno delo}
 % 

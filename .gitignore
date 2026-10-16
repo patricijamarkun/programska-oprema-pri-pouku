@@ -1,3 +1,9 @@
+# Keep only TeX source files in the LaTeX folders
+PISNO-OCENJEVANJE-ZNANJA/*
+PREGLED-SNOVI/*
+!PISNO-OCENJEVANJE-ZNANJA/*.tex
+!PREGLED-SNOVI/*.tex
+
 # LaTeX generated files
 *.aux
 *.bbl
@@ -12,11 +18,9 @@
 *.log
 *.lot
 *.out
+*.pdf
 *.pdfsync
 *.run.xml
 *.synctex.gz
 *.toc
-
-# PDF output files
-*.pdf
 
