@@ -2,12 +2,21 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[slovenian]{babel}
+\usepackage[slovene]{babel}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{titlesec}
 \usepackage[a4paper,margin=2.5cm]{geometry}
 
-\title{ZAPOREDJA}
+\definecolor{darkred}{RGB}{128,0,0}
+\definecolor{darkblue}{RGB}{0,0,128}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\titleformat{\section}{\color{darkred}\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\color{darkred}\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\color{darkred}\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\title{\textcolor{darkred}{ZAPOREDJA}}
 \date{}
 
 \begin{document}
@@ -16,66 +25,91 @@
 
 \section{Kaj je zaporedje?}
 
-Zaporedje je urejen seznam števil, pri katerem je vsakemu naravnemu številu $n$ prirejen člen $a_n$. V tem pregledu privzamemo, da je $n\in\mathbb{N} = \{1,2,3,\ldots\}$. Člene označujemo z $a_1, a_2, a_3, \ldots$, kjer je $a_1$ prvi člen, $a_n$ pa splošni člen.
+\noindent\fcolorbox{darkblue}{white}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{
+Zaporedje je urejen seznam števil, pri katerem je vsakemu naravnemu številu $n\in\mathbb{N} = \{1,2,3,\ldots\}$ prirejen člen $a_n$.o. Člene označujemo z $a_1, a_2, a_3, \ldots$, kjer je $a_1$ prvi člen, $a_n$ pa splošni člen.
+}}
+
+\vspace{0.5cm}
 
 Zaporedje lahko podamo:
 \begin{itemize}
-    \item \textbf{z} \textbf{naštevanjem} \textbf{členov}, na primer $2, 5, 8, 11, \ldots$;
-    \item \textbf{s} \textbf{splošnim} \textbf{členom}, na primer $a_n=3n-1$;
-    \item \textbf{rekurzivno}, tako da določimo začetni člen in pravilo za izračun naslednjega, na primer $a_1=2$ in $a_{n+1}=a_n+3$.
+    \item \textcolor{darkblue}{\textbf{z}} \textcolor{darkblue}{\textbf{naštevanjem}} \textcolor{darkblue}{\textbf{členov}}, na primer $2, 5, 8, 11, \ldots$;
+    \item \textcolor{darkblue}{\textbf{s}} \textcolor{darkblue}{\textbf{splošnim}} \textcolor{darkblue}{\textbf{členom}}, na primer $a_n=3n-1$;
+    \item \textcolor{darkblue}{\textbf{rekurzivno}}, tako da določimo začetni člen in pravilo za izračun naslednjega, na primer $a_1=2$ in $a_{n+1}=a_n+3$.
 \end{itemize}
 
 \section{Kako prepoznamo lastnosti zaporedja?}
 
-Zaporedje lahko poleg oblike in formule opisujemo tudi po tem, kako se njegovi členi spreminjajo. Pomembna sta pojma naraščanje in padanje.
+Zaporedje lahko poleg oblike in formule opisujemo tudi po tem, kako se njegovi členi spreminjajo. Pomembna sta pojma \textcolor{darkblue}{\textbf{naraščanje}} in \textcolor{darkblue}{\textbf{padanje}}.
+
+\vspace{0.5cm}
 
 Zaporedje je:
-\begin{itemize}
-    \item \textbf{naraščajoče}, če velja $a_{n+1} > a_n$ za vse $n$;
-    \item \textbf{padajoče}, če velja $a_{n+1} < a_n$ za vse $n$;
-    \item \textbf{nepadajoče}, če velja $a_{n+1} \ge a_n$;
-    \item \textbf{nerastejoče}, če velja $a_{n+1} \le a_n$;
-    \item \textbf{konstantno}, če velja $a_{n+1}=a_n$ za vse $n$.
+\begin{itemize}  
+    \item \textcolor{darkblue}{\textbf{naraščajoče}}, če velja $a_{n+1} \ge a_n$ za vse $n$;
+    \item \textcolor{darkblue}{\textbf{padajoče}}, če velja $a_{n+1} \ge a_n$ za vse $n$;
+    \item \textcolor{darkblue}{\textbf{strogo naraščajoče}}, če velja $a_{n+1} > a_n$;
+    \item \textcolor{darkblue}{\textbf{strogo padajoče}}, če velja $a_{n+1} < a_n$;
+    \item \textcolor{darkblue}{\textbf{konstantno}}, če velja $a_{n+1}=a_n$ za vse $n$.
 \end{itemize}
 
-Na primer: zaporedje $2, 5, 8, 11, \ldots$ je naraščajoče, saj se vsak naslednji člen poveča za $3$. Zaporedje $20, 17, 14, 11, \ldots$ je padajoče, saj se vsak naslednji člen zmanjša za $3$.
+\medskip
+
+Zaporedje je lahko tudi \textcolor{darkblue}{\textbf{omejeno}}. To pomeni, da vsi členi zaporedja ležijo med dvema številoma, torej obstajata $m$ in $M$, da je $m \le a_n \le M$ za vsak $n$. Če taki števili $m$ in $M$ ne obstajata, je zaporedje \textcolor{darkblue}{\textbf{neomejeno}}.
 
 \medskip
 
-Zaporedje je lahko tudi \textbf{omejeno}. To pomeni, da so vsi členi zaporedja med dvema številoma. Če obstajata $m$ in $M$, da je $m \le a_n \le M$ za vse $n$, potem je zaporedje \textbf{omejeno}. Če ne obstajata taki števili $m$ in $M$, je zaporedje neomejeno.
-
-\medskip
-
-Na primer: zaporedje $1, \frac12, \frac13, \frac14, \ldots$ je omejeno, ker so vsi členi pozitivni in ne presegajo $1$. Zaporedje $1, 2, 3, 4, \ldots$ pa je neomejeno.
+\textcolor{darkgreen}{\textbf{Primeri:}}
+\begin{itemize}
+    \item Zaporedje $2, 5, 8, 11, \ldots$ je \textcolor{darkgreen}{\textbf{naraščajoče}}, saj se \textcolor{darkgreen}{vsak naslednji člen poveča za $3$};
+    \item Zaporedje $20, 17, 14, 11, \ldots$ je \textcolor{darkgreen}{\textbf{padajoče}}, saj se \textcolor{darkgreen}{vsak naslednji člen zmanjša za $3$};
+    \item Zaporedje $1, \frac12, \frac13, \frac14, \ldots$ je \textcolor{darkgreen}{\textbf{omejeno}}, ker so \textcolor{darkgreen}{vsi členi pozitivni in ne presegajo $1$};
+    \item Zaporedje $1, 2, 3, 4, \ldots$ je \textcolor{darkgreen}{\textbf{neomejeno}}, ker \textcolor{darkgreen}{ne obstaja število $M$, ki bi bilo večje od vseh členov}.
+\end{itemize}
 
 \section{Kako narišemo zaporedje?}
 
 Zaporedje lahko grafično predstavimo na dva načina:
 \begin{itemize}
-    \item v koordinatni ravnini narišemo točke $(n, a_n)$;
-    \item kot posamezne točke na številski premici, če nas zanima samo razporeditev členov.
+    \item \textcolor{darkblue}{v koordinatni ravnini narišemo točke $(n, a_n)$;}
+    \item \textcolor{darkblue}{kot posamezne točke na številski premici,} če nas zanima samo razporeditev členov.
 \end{itemize}
 
-V koordinatni ravnini je abscisa $n$ (mesto člena), ordinata pa $a_n$ (velikost člena). Če je zaporedje naraščajoče, so točke od leve proti desni višje; če je padajoče, so nižje. Če je zaporedje omejeno, se vse točke nahajajo v nekem pasu med dvema vrednostima.
+\noindent V koordinatni ravnini je abscisa \textcolor{darkblue}{$n$} (mesto člena), ordinata pa \textcolor{darkblue}{$a_n$} (velikost člena). 
 
-Primer: zaporedje $a_n = 2n-1$ daje člene $1, 3, 5, 7, \ldots$. Točke $(1,1), (2,3), (3,5), \ldots$ ležijo na isti premici, vendar graf zaporedja sestavljajo le te posamezne točke. Pri zaporedju $a_n = \frac{1}{n}$ pa točke $(1,1), (2,\tfrac12), (3,\tfrac13), \ldots$ padajo proti nič.
+\noindent\fcolorbox{darkblue}{white}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{
+\begin{itemize}
+    \item Če je zaporedje naraščajoče, so točke od leve proti desni višje.
+    \item Če je zaporedje padajoče, je vsaka naslednja točka nižja od prejšnje. 
+    \item Če je zaporedje omejeno, se vse točke nahajajo v nekem pasu med dvema vrednostima.
+\end{itemize}
+}}
+\medskip
+
+\textcolor{darkgreen}{\textbf{Primer naraščajočega zaporedja:}} členi zaporedja $a_n = 2n-1$ so $1, 3, 5, 7, \ldots$. Točke $(1,1), (2,3), (3,5), \ldots$ sestavjajo graf zaporedja.
+
+\vspace{1.5cm}
 
 \begin{center}
 \setlength{\unitlength}{0.55cm}
-\begin{picture}(7,11)
-    \put(0,0){\vector(1,0){6}}
-    \put(0,0){\vector(0,1){10}}
-    \put(6.1,-0.2){$n$}
-    \put(-0.4,10.2){$a_n$}
+\begin{picture}(10,10)
+    \put(0,0){\vector(1,0){9}}
+    \put(0,0){\vector(0,1){9}}
+    \put(9.1,-0.2){$n$}
+    \put(-0.4,9.2){$a_n$}
     \put(1,-0.35){\makebox(0,0){$1$}}
     \put(2,-0.35){\makebox(0,0){$2$}}
     \put(3,-0.35){\makebox(0,0){$3$}}
     \put(4,-0.35){\makebox(0,0){$4$}}
     \put(5,-0.35){\makebox(0,0){$5$}}
     \put(-0.3,1){\makebox(0,0)[r]{$1$}}
+    \put(-0.3,2){\makebox(0,0)[r]{$2$}}
     \put(-0.3,3){\makebox(0,0)[r]{$3$}}
+    \put(-0.3,4){\makebox(0,0)[r]{$4$}}
     \put(-0.3,5){\makebox(0,0)[r]{$5$}}
+    \put(-0.3,6){\makebox(0,0)[r]{$6$}}
     \put(-0.3,7){\makebox(0,0)[r]{$7$}}
+    \put(-0.3,8){\makebox(0,0)[r]{$8$}}
     \put(-0.3,9){\makebox(0,0)[r]{$9$}}
     \put(1,1){\circle*{0.18}}
     \put(2,3){\circle*{0.18}}
@@ -84,9 +118,67 @@ Primer: zaporedje $a_n = 2n-1$ daje člene $1, 3, 5, 7, \ldots$. Točke $(1,1), 
     \put(5,9){\circle*{0.18}}
 \end{picture}
 
+\end{center}
+
+Drugi primer: zaporedje $a_n=10-2n$ ima člene $8, 6, 4, 2, \ldots$. Točke $(1,8), (2,6), (3,4), \ldots$ se premikajo navzdol, zato je zaporedje padajoče.
+
+\begin{center}
+\setlength{\unitlength}{0.55cm}
+\begin{picture}(7,9)
+    \put(0,0){\vector(1,0){6}}
+    \put(0,0){\vector(0,1){8}}
+    \put(7.0,-0.2){$n$}
+    \put(-0.4,9.0){$a_n$}
+    \put(1,-0.35){\makebox(0,0){$1$}}
+    \put(2,-0.35){\makebox(0,0){$2$}}
+    \put(3,-0.35){\makebox(0,0){$3$}}
+    \put(4,-0.35){\makebox(0,0){$4$}}
+    \put(5,-0.35){\makebox(0,0){$5$}}
+    \put(-0.3,2){\makebox(0,0)[r]{$2$}}
+    \put(-0.3,4){\makebox(0,0)[r]{$4$}}
+    \put(-0.3,6){\makebox(0,0)[r]{$6$}}
+    \put(-0.3,8){\makebox(0,0)[r]{$8$}}
+    \put(1,8){\circle*{0.18}}
+    \put(2,6){\circle*{0.18}}
+    \put(3,4){\circle*{0.18}}
+    \put(4,2){\circle*{0.18}}
+    \put(5,0){\circle*{0.18}}
+\end{picture}
+
 \vspace{0.5cm}
 
-Graf zaporedja $a_n=2n-1$; narisani so posamezni členi zaporedja.
+Graf zaporedja $a_n=10-2n$; točke se nizajo navzdol.
+\end{center}
+
+Primer omejenega zaporedja: $a_n=1-\frac{1}{n}$ ima člene $0, \frac12, \frac23, \frac34, \ldots$. Vsi členi so manjši od $1$ in večji od $0$, zato je zaporedje omejeno, hkrati pa se približuje vrednosti $1$.
+
+\begin{center}
+\setlength{\unitlength}{0.55cm}
+\begin{picture}(7,7)
+    \put(0,0){\vector(1,0){6}}
+    \put(0,0){\vector(0,1){6}}
+    \put(6.1,-0.2){$n$}
+    \put(-0.4,6.2){$a_n$}
+    \put(1,-0.35){\makebox(0,0){$1$}}
+    \put(2,-0.35){\makebox(0,0){$2$}}
+    \put(3,-0.35){\makebox(0,0){$3$}}
+    \put(4,-0.35){\makebox(0,0){$4$}}
+    \put(5,-0.35){\makebox(0,0){$5$}}
+    \put(-0.3,1){\makebox(0,0)[r]{$1$}}
+    \put(-0.3,2){\makebox(0,0)[r]{$2$}}
+    \put(-0.3,3){\makebox(0,0)[r]{$3$}}
+    \put(-0.3,4){\makebox(0,0)[r]{$4$}}
+    \put(-0.3,5){\makebox(0,0)[r]{$5$}}
+    \put(1,0){\circle*{0.18}}
+    \put(2,0.5){\circle*{0.18}}
+    \put(3,0.6667){\circle*{0.18}}
+    \put(4,0.75){\circle*{0.18}}
+    \put(5,0.8){\circle*{0.18}}
+\end{picture}
+
+\vspace{0.5cm}
+
+Graf zaporedja $a_n=1-\frac{1}{n}$; točke se približujejo vrednosti $1$ od spodaj.
 \end{center}
 
 \section{Aritmetično zaporedje}
@@ -206,32 +298,32 @@ Pri določanju limite razmisli, kaj se s členom dogaja, ko $n$ neomejeno naraš
 
 Na primer, pri $a_n=3+\frac2n$ člen $\frac2n$ teži k $0$, zato je $\lim_{n\to\infty}a_n=3$. Pri $a_n=n$ členi naraščajo brez meje, zato zaporedje nima končne limite.
 
-\section{Vaje za samostojno delo}
-
-Za vsako zaporedje določi, ali je naraščajoče, padajoče ali ni monotono; ali je omejeno; in če ima limito, jo izračunaj.
-
-\begin{enumerate}
-    \item $a_n=2n-1$
-    \item $a_n=\frac{1}{n}$
-    \item $a_n=(-1)^n$
-    \item $a_n=1-\frac{1}{n}$
-\end{enumerate}
-
-\textbf{Rešitve za preverjanje:}
-\begin{itemize}
-    \item 1. Naraščajoče in neomejeno; nima končne limite.
-    \item 2. Padajoče in omejeno ($0<a_n\le1$); limita je $0$.
-    \item 3. Ni monotono in je omejeno ($-1\le a_n\le1$); nima limite.
-    \item 4. Naraščajoče in omejeno ($0\le a_n<1$); limita je $1$.
-\end{itemize}
-
-\section*{Na kratko}
-
-\begin{itemize}
-    \item Aritmetično: prištevamo isto število $d$.
-    \item Geometrijsko: množimo z istim številom $q$.
-    \item Splošni člen pove, kako neposredno izračunamo člen na mestu $n$.
-    \item Vsota $S_n$ pomeni vsoto prvih $n$ členov.
-\end{itemize}
-
+% \section{Vaje za samostojno delo}
+% 
+% Za vsako zaporedje določi, ali je naraščajoče, padajoče ali ni monotono; ali je omejeno; in če ima limito, jo izračunaj.
+% 
+% \begin{enumerate}
+%     \item $a_n=2n-1$
+%     \item $a_n=\frac{1}{n}$
+%     \item $a_n=(-1)^n$
+%     \item $a_n=1-\frac{1}{n}$
+% \end{enumerate}
+% 
+% \textbf{Rešitve za preverjanje:}
+% \begin{itemize}
+%     \item 1. Naraščajoče in neomejeno; nima končne limite.
+%     \item 2. Padajoče in omejeno ($0<a_n\le1$); limita je $0$.
+%     \item 3. Ni monotono in je omejeno ($-1\le a_n\le1$); nima limite.
+%     \item 4. Naraščajoče in omejeno ($0\le a_n<1$); limita je $1$.
+% \end{itemize}
+% 
+% \section*{Na kratko}
+% 
+% \begin{itemize}
+%     \item Aritmetično: prištevamo isto število $d$.
+%     \item Geometrijsko: množimo z istim številom $q$.
+%     \item Splošni člen pove, kako neposredno izračunamo člen na mestu $n$.
+%     \item Vsota $S_n$ pomeni vsoto prvih $n$ členov.
+% \end{itemize}
+ 
 \end{document}
