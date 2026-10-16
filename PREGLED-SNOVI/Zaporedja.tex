@@ -47,7 +47,7 @@ Zaporedje lahko poleg oblike in formule opisujemo tudi po tem, kako se njegovi �
 Zaporedje je:
 \begin{itemize}  
     \item \textcolor{darkblue}{\textbf{naraščajoče}}, če velja $a_{n+1} \ge a_n$ za vse $n$;
-    \item \textcolor{darkblue}{\textbf{padajoče}}, če velja $a_{n+1} \ge a_n$ za vse $n$;
+    \item \textcolor{darkblue}{\textbf{padajoče}}, če velja $a_{n+1} \le a_n$ za vse $n$;
     \item \textcolor{darkblue}{\textbf{strogo naraščajoče}}, če velja $a_{n+1} > a_n$;
     \item \textcolor{darkblue}{\textbf{strogo padajoče}}, če velja $a_{n+1} < a_n$;
     \item \textcolor{darkblue}{\textbf{konstantno}}, če velja $a_{n+1}=a_n$ za vse $n$.
@@ -86,17 +86,18 @@ Zaporedje lahko grafično predstavimo na dva načina:
 }}
 \medskip
 
-\textcolor{darkgreen}{\textbf{Primer naraščajočega zaporedja:}} členi zaporedja $a_n = 2n-1$ so $1, 3, 5, 7, \ldots$. Točke $(1,1), (2,3), (3,5), \ldots$ sestavjajo graf zaporedja.
+\textcolor{darkgreen}{\textbf{Primeri:}} 
 
-\vspace{1.5cm}
+\begin{itemize}
+    \item Členi \textcolor{darkgreen}{\textbf{naraščajočega}} zaporedja $a_n = 2n-1$ so $1, 3, 5, 7, \ldots$. Točke $(1,1), (2,3), (3,5), \ldots$ sestavjajo graf zaporedja.
 
 \begin{center}
 \setlength{\unitlength}{0.55cm}
 \begin{picture}(10,10)
-    \put(0,0){\vector(1,0){9}}
+    \put(0,0){\vector(1,0){6}}
     \put(0,0){\vector(0,1){9}}
-    \put(9.1,-0.2){$n$}
-    \put(-0.4,9.2){$a_n$}
+    \put(6.1,-0.2){$n$}
+    \put(-0.4,9.3){$a_n$}
     \put(1,-0.35){\makebox(0,0){$1$}}
     \put(2,-0.35){\makebox(0,0){$2$}}
     \put(3,-0.35){\makebox(0,0){$3$}}
@@ -111,54 +112,24 @@ Zaporedje lahko grafično predstavimo na dva načina:
     \put(-0.3,7){\makebox(0,0)[r]{$7$}}
     \put(-0.3,8){\makebox(0,0)[r]{$8$}}
     \put(-0.3,9){\makebox(0,0)[r]{$9$}}
-    \put(1,1){\circle*{0.18}}
-    \put(2,3){\circle*{0.18}}
-    \put(3,5){\circle*{0.18}}
-    \put(4,7){\circle*{0.18}}
-    \put(5,9){\circle*{0.18}}
+    \put(1,1){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(2,3){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(3,5){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(4,7){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(5,9){\textcolor{darkgreen}{\circle*{0.18}}}
 \end{picture}
 
 \end{center}
 
-Drugi primer: zaporedje $a_n=10-2n$ ima člene $8, 6, 4, 2, \ldots$. Točke $(1,8), (2,6), (3,4), \ldots$ se premikajo navzdol, zato je zaporedje padajoče.
+    \item Členi \textcolor{darkgreen}{\textbf{padajočega}} zaporedja $a_n=10-2n$ so $8, 6, 4, 2, \ldots$. Točke $(1,8), (2,6), (3,4), \ldots$ sestavljajo graf zaporedja.
 
 \begin{center}
 \setlength{\unitlength}{0.55cm}
 \begin{picture}(7,9)
     \put(0,0){\vector(1,0){6}}
-    \put(0,0){\vector(0,1){8}}
-    \put(7.0,-0.2){$n$}
-    \put(-0.4,9.0){$a_n$}
-    \put(1,-0.35){\makebox(0,0){$1$}}
-    \put(2,-0.35){\makebox(0,0){$2$}}
-    \put(3,-0.35){\makebox(0,0){$3$}}
-    \put(4,-0.35){\makebox(0,0){$4$}}
-    \put(5,-0.35){\makebox(0,0){$5$}}
-    \put(-0.3,2){\makebox(0,0)[r]{$2$}}
-    \put(-0.3,4){\makebox(0,0)[r]{$4$}}
-    \put(-0.3,6){\makebox(0,0)[r]{$6$}}
-    \put(-0.3,8){\makebox(0,0)[r]{$8$}}
-    \put(1,8){\circle*{0.18}}
-    \put(2,6){\circle*{0.18}}
-    \put(3,4){\circle*{0.18}}
-    \put(4,2){\circle*{0.18}}
-    \put(5,0){\circle*{0.18}}
-\end{picture}
-
-\vspace{0.5cm}
-
-Graf zaporedja $a_n=10-2n$; točke se nizajo navzdol.
-\end{center}
-
-Primer omejenega zaporedja: $a_n=1-\frac{1}{n}$ ima člene $0, \frac12, \frac23, \frac34, \ldots$. Vsi členi so manjši od $1$ in večji od $0$, zato je zaporedje omejeno, hkrati pa se približuje vrednosti $1$.
-
-\begin{center}
-\setlength{\unitlength}{0.55cm}
-\begin{picture}(7,7)
-    \put(0,0){\vector(1,0){6}}
-    \put(0,0){\vector(0,1){6}}
-    \put(6.1,-0.2){$n$}
-    \put(-0.4,6.2){$a_n$}
+    \put(0,0){\vector(0,1){9}}
+    \put(6.0,-0.2){$n$}
+    \put(-0.4,9.3){$a_n$}
     \put(1,-0.35){\makebox(0,0){$1$}}
     \put(2,-0.35){\makebox(0,0){$2$}}
     \put(3,-0.35){\makebox(0,0){$3$}}
@@ -169,17 +140,47 @@ Primer omejenega zaporedja: $a_n=1-\frac{1}{n}$ ima člene $0, \frac12, \frac23,
     \put(-0.3,3){\makebox(0,0)[r]{$3$}}
     \put(-0.3,4){\makebox(0,0)[r]{$4$}}
     \put(-0.3,5){\makebox(0,0)[r]{$5$}}
-    \put(1,0){\circle*{0.18}}
-    \put(2,0.5){\circle*{0.18}}
-    \put(3,0.6667){\circle*{0.18}}
-    \put(4,0.75){\circle*{0.18}}
-    \put(5,0.8){\circle*{0.18}}
+    \put(-0.3,6){\makebox(0,0)[r]{$6$}}
+    \put(-0.3,7){\makebox(0,0)[r]{$7$}}
+    \put(-0.3,8){\makebox(0,0)[r]{$8$}}
+    \put(1,8){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(2,6){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(3,4){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(4,2){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(5,0){\textcolor{darkgreen}{\circle*{0.18}}}
 \end{picture}
-
 \vspace{0.5cm}
-
-Graf zaporedja $a_n=1-\frac{1}{n}$; točke se približujejo vrednosti $1$ od spodaj.
 \end{center}
+
+    \item \textcolor{darkgreen}{\textbf{Omejeno zaporedje}}: $a_n=1-\frac{1}{n}$ ima člene $0, \frac12, \frac23, \frac34, \ldots$. Vsi členi so manjši od $1$ in večji od $0$, zato je zaporedje omejeno, hkrati pa se približuje vrednosti $1$.
+
+\begin{center}
+\setlength{\unitlength}{0.75cm}
+\begin{picture}(7,6)
+    \put(0,0){\vector(1,0){6}}
+    \put(0,0){\vector(0,1){5}}
+    \put(6.1,-0.2){$n$}
+    \put(-0.4,5.5){$a_n$}
+    \put(1,-0.35){\makebox(0,0){$1$}}
+    \put(2,-0.35){\makebox(0,0){$2$}}
+    \put(3,-0.35){\makebox(0,0){$3$}}
+    \put(4,-0.35){\makebox(0,0){$4$}}
+    \put(5,-0.35){\makebox(0,0){$5$}}
+    \put(-0.3,0){\makebox(0,0)[r]{$0$}}
+    \put(-0.3,1){\makebox(0,0)[r]{$0.2$}}
+    \put(-0.3,2){\makebox(0,0)[r]{$0.4$}}
+    \put(-0.3,3){\makebox(0,0)[r]{$0.6$}}
+    \put(-0.3,4){\makebox(0,0)[r]{$0.8$}}
+    \put(-0.3,5){\makebox(0,0)[r]{$1$}}
+    \put(1,0){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(2,2.5){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(3,3.333){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(4,3.75){\textcolor{darkgreen}{\circle*{0.18}}}
+    \put(5,4){\textcolor{darkgreen}{\circle*{0.18}}}
+\end{picture}
+\end{center}
+
+\end{itemize}
 
 \section{Aritmetično zaporedje}
 
