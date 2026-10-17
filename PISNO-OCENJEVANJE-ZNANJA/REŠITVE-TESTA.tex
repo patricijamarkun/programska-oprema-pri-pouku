@@ -1,0 +1,334 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[slovene]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\geometry{margin=2.5cm}
+
+\begin{document}
+
+\title{Rešitve testa Zaporedja}
+\author{}
+\date{}
+\maketitle
+
+\section*{Naloge}
+
+\begin{enumerate}
+\item \textbf{(6 točk)} Aritmetično zaporedje ima $a_3=11$ in $a_8=31$.
+\begin{enumerate}[label=\alph*)]
+  \item Izračunaj diferenco $d$ in prvi člen $a_1$ \textbf{(3 točke)}.
+  \item Izračunaj $a_{25}$ \textbf{(1 točka)}.
+  \item Izračunaj vsoto prvih 25 členov \textbf{(2 točki)}.
+\end{enumerate}
+
+\vspace{0.5em}
+
+\textbf{\large Rešitev}
+
+\textbf{a)}
+Za izračun diference $d$ in prvega člena $a_1$ uporabimo splošno formulo za $n$-ti člen aritmetičnega zaporedja:
+\[
+ a_n=a_1+(n-1)d.
+\]
+V našem primeru sta podana $a_3$ in $a_8$, zato velja:
+\begin{align*}
+ a_3 &= a_1 + 2d = 11, \\
+ a_8 &= a_1 + 7d = 31.
+\end{align*}
+Od prve enačbe odštejemo drugo:
+\[
+(a_1+7d)-(a_1+2d)=31-11
+\quad\Rightarrow\quad
+5d=20
+\quad\Rightarrow\quad
+d=4.
+\]
+Sedaj iz $a_3=a_1+2d=11$ dobimo:
+\[
+ a_1 + 2\cdot 4 = 11
+\quad\Rightarrow\quad
+ a_1 = 3.
+\]
+
+\textbf{b)}
+Uporabimo isto splošno formulo za $n$-ti člen:
+\[
+ a_n=a_1+(n-1)d.
+\]
+Za $n=25$ dobimo:
+\[
+ a_{25}=a_1+24d=3+24\cdot 4=99.
+\]
+
+\textbf{c)}
+Za izračun vsote prvih 25 členov uporabimo formulo za vsoto $n$ členov aritmetičnega zaporedja:
+\[
+ S_n=\frac{n(a_1+a_n)}{2}.
+\]
+Torej je
+\[
+ S_{25}=\dfrac{25(a_1+a_{25})}{2}=\dfrac{25(3+99)}{2}=\dfrac{25\cdot 102}{2}=1275.
+\]
+
+\vspace{0.5em}
+\textbf{\large Točkovanje}
+
+ a) 1 točka za pravilno izračunano diferenco $d$, 1 točka za pravilno izračunan prvi člen $a_1$ in 1 točka za prikazan postopek računanja.
+
+ \medskip
+
+ b) 1 točka za pravilno izračunan člen $a_{25}$.
+
+ \medskip
+
+ c) 1 točka za pravilno izračunano vsoto $S_{25}$ in 1 točka za prikazan postopek računanja.
+
+
+\vspace{1em}
+\clearpage
+\item \textbf{(6 točk)} Geometrijsko zaporedje ima $a_2=6$, $a_5=162$ in količnik $q>0$.
+\begin{enumerate}[label=\alph*)]
+  \item Izračunaj količnik $q$ in prvi člen $a_1$ \textbf{(3 točke)}.
+  \item Izračunaj $a_{12}$ \textbf{(1 točka)}.
+  \item Izračunaj vsoto prvih šestih členov \textbf{(2 točki)}.
+\end{enumerate}
+
+\vspace{0.5em}
+
+\textbf{\large Rešitev}
+
+\textbf{a)}
+Za izračun količnika $q$ in prvega člena $a_1$ uporabimo splošno formulo za $n$-ti člen geometrijskega zaporedja:
+\[
+ a_n=a_1q^{n-1}.
+\]
+V našem primeru sta podana $a_2$ in $a_5$, zato velja:
+\[
+ a_2=a_1q=6,
+\qquad
+ a_5=a_1q^4=162.
+\]
+Delimo drugo enačbo s prvo:
+\[
+\frac{a_1q^4}{a_1q}=\frac{162}{6}
+\quad\Rightarrow\quad
+q^3=27
+\quad\Rightarrow\quad
+q=3.
+\]
+Potem je
+\[
+ a_1\cdot 3=6
+\quad\Rightarrow\quad
+ a_1=2.
+\]
+
+\textbf{b)}
+Uporabimo isto formulo za geometrijsko zaporedje:
+\[
+ a_n=a_1q^{n-1}.
+\]
+Za $n=12$ dobimo:
+\[
+ a_{12}=a_1q^{11}=2\cdot 3^{11}=2\cdot 177147=354294.
+\]
+
+\textbf{c)}
+Za izračun vsote prvih šestih členov uporabimo formulo za vsoto geometrijskega zaporedja:
+\[
+ S_n=a_1\frac{q^n-1}{q-1}.
+\]
+Torej je
+\[
+ S_6=a_1\dfrac{q^6-1}{q-1}=2\cdot\dfrac{3^6-1}{3-1}=2\cdot\dfrac{729-1}{2}=728.
+\]
+
+\vspace{0.5em}
+\textbf{\large Točkovanje}
+
+ a) 1 točka za pravilno izračunan količnik $q$, 1 točka za pravilno izračunan prvi člen $a_1$ in 1 točka za prikazan postopek računanja.
+
+ \medskip
+
+ b) 1 točka za pravilno izračunan člen $a_{12}$.
+
+ \medskip
+
+ c) 1 točka za pravilno izračunano vsoto $S_6$ in 1 točka za prikazan postopek računanja.
+
+\vspace{1em}
+\clearpage
+\item \textbf{(6 točk)} Zaporedje je podano s splošnim členom
+\[
+ a_n=\frac{2n+1}{n+2}, \qquad n=1,2,\ldots
+\]
+\begin{enumerate}[label=\alph*)]
+  \item Zapiši prve štiri člene zaporedja \textbf{(2 točki)}.
+  \item Ugotovi, ali je zaporedje naraščajoče, in utemelji odgovor \textbf{(2 točki)}.
+  \item Izračunaj limito zaporedja \textbf{(2 točki)}.
+\end{enumerate}
+
+\vspace{0.5em}
+
+\textbf{\large Rešitev}
+
+\textbf{a)}
+Za izračun prvih štirih členov zaporedja vstavimo $n=1,2,3,4$ v splošni člen:
+\[
+ a_n=\frac{2n+1}{n+2}.
+\]
+Torej dobimo:
+\[
+ a_1=\frac{3}{3}=1,
+ \quad
+ a_2=\frac{5}{4},
+ \quad
+ a_3=\frac{7}{5},
+ \quad
+ a_4=\frac{9}{6}=\frac{3}{2}.
+ \]
+
+\textbf{b)}
+Za preverjanje, ali je zaporedje naraščajoče, izračunamo razliko med dvema zaporednima členoma:
+\[
+ a_{n+1}-a_n
+ =\frac{2(n+1)+1}{(n+1)+2}-\frac{2n+1}{n+2}
+ =\frac{3}{(n+2)(n+3)}>0.
+\]
+Ker je $a_{n+1}-a_n>0$ za vsak $n$, je zaporedje strogo naraščajoče.
+
+
+\textbf{c)}
+Za izračun limite uporabimo pravilo za limito racionalne funkcije:
+\[
+\lim_{n\to\infty}\frac{2n+1}{n+2}=\lim_{n\to\infty}\frac{2+\frac1n}{1+\frac2n}=2.
+\]
+
+\vspace{0.5em}
+\textbf{\large Točkovanje}
+
+ a) 0,5 točke za vsak pravilno izračunan člen $a_1$, $a_2$, $a_3$ in $a_4$.
+
+ \medskip
+
+ b) 1 točka za ugotovitev, da je zaporedje naraščajoče in 1 točka za pravilen sklep o pozitivni razliki.
+
+ \medskip
+
+ c) 1 točka za postopek računanja limite in 1 točka za pravilno izračunano limito.
+
+\vspace{1em}
+\clearpage
+\item \textbf{(6 točk)} Zaporedje je določeno rekurzivno:
+\[
+ a_1=4, \qquad a_{n+1}=a_n+2n+1.
+\]
+\begin{enumerate}[label=\alph*)]
+  \item Izračunaj prve štiri člene zaporedja \textbf{(2 točki)}.
+  \item Zapiši domnevo za splošni člen $a_n$ \textbf{(1 točka)}.
+  \item Domnevo dokaži z matematično indukcijo \textbf{(3 točke)}.
+\end{enumerate}
+
+\vspace{0.5em}
+
+\textbf{\large Rešitev}
+
+\textbf{a)}
+Za izračun prvih petih členov uporabimo rekurzivno zvezo $a_{n+1}=a_n+2n+1$:
+\[
+ a_1=4,
+ \quad
+ a_2=4+3=7,
+ \quad
+ a_3=7+5=12,
+ \quad
+ a_4=12+7=19,
+ \quad
+ a_5=19+9=28.
+\]
+
+\textbf{b)}
+Iz dobljenih členov ugotovimo, da je splošni člen
+\[
+ a_n=n^2+3.
+\]
+
+\textbf{c)}
+\textit{Baza:} za $n=1$ velja
+\[
+ a_1=4=1^2+3.
+\]
+\textit{Indukcijski korak:} predpostavimo, da je $a_n=n^2+3$. Potem je
+\[
+ a_{n+1}=a_n+2n+1=(n^2+3)+2n+1=n^2+2n+1+3=(n+1)^2+3.
+\]
+To velja za $a_{n+1}$, zato je domneva pravilna za vse $n\in\mathbb{N}$.
+
+\vspace{0.5em}
+\textbf{\large Točkovanje}
+
+ a) 0,5 točke za vsak pravilno izračunan člen $a_1$, $a_2$, $a_3$ in $a_4$.
+
+ \medskip
+
+ b) 1 točka za pravilno zapisano domnevo.
+
+ \medskip
+
+ c) 1 točka za izračun baze indukcije,, 1 točka za pravilni indukcjski korak in 1 točka za sklep.
+
+\vspace{1em}
+\clearpage
+\item \textbf{(6 točk)} V gledališču je v prvi vrsti 18 sedežev, v vsaki naslednji vrsti pa so trije sedeži več kot v prejšnji. Gledališče ima 20 vrst.
+\begin{enumerate}[label=\alph*)]
+  \item Koliko sedežev je v zadnji vrsti? \textbf{(4 točke)}
+  \item Koliko sedežev je v gledališču skupaj? \textbf{(2 točki)}
+\end{enumerate}
+
+\vspace{0.5em}
+
+\textbf{\large Rešitev}
+
+\textbf{a)}
+Uporabimo splošno formulo za $n$-ti člen aritmetičnega zaporedja:
+\[
+ a_n=a_1+(n-1)d.
+\]
+Iz besedila razberemo, da je $a_1=18$ in $d=3$. Gledališče ima $n=20$ vrst, zato je v zadnji vrsti
+\[
+ a_{20}=a_1+19d=18+19\cdot 3=18+57=75
+\]
+sedežev.
+
+
+\medskip
+\textbf{b)}
+Za izračun vsote uporabimo formulo za vsoto prvih $n$ členov aritmetičnega zaporedja:
+\[
+ S_n=\frac{n(a_1+a_n)}{2}.
+\]
+Torej je
+\[
+ S_{20}=\frac{20(a_1+a_{20})}{2}=\frac{20(18+75)}{2}=\frac{20\cdot 93}{2}=930.
+\]
+
+\vspace{0.5em}
+\textbf{\large Točkovanje}
+
+ a) 1 točka za ugotovitev, da naloga opisuje aritmetično zaporedje, 0,5 točke za $a_1$ in 0,5 točke za $d$, 1 točka za pravilno izračunano število sedežev v zadnji vrsti in 1 točka za postopek računanja. 
+ 
+ \medskip
+
+ b) 1 točka za pravilno izračunano število vseh sedežev v gledališču in 1 točka za prikazan postopek računanja.
+ 
+ 
+\end{enumerate}
+
+\end{document}
