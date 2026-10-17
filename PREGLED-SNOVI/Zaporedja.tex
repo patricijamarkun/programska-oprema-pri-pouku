@@ -26,7 +26,7 @@
 \section{Kaj je zaporedje?}
 
 \noindent\fcolorbox{darkblue}{white}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{
-Zaporedje je urejen seznam števil, pri katerem je vsakemu naravnemu številu $n\in\mathbb{N} = \{1,2,3,\ldots\}$ prirejen člen $a_n$.o. Člene označujemo z $a_1, a_2, a_3, \ldots$, kjer je $a_1$ prvi člen, $a_n$ pa splošni člen.
+Zaporedje je urejen seznam števil, pri katerem je vsakemu naravnemu številu $n\in\mathbb{N} = \{1,2,3,\ldots\}$ prirejen člen $a_n$. Člene označujemo z $a_1, a_2, a_3, \ldots$, kjer je $a_1$ prvi člen, $a_n$ pa splošni člen.
 }}
 
 \vspace{0.5cm}
@@ -270,55 +270,56 @@ To pomeni, da lahko členi zaporedja postanejo poljubno blizu številu $L$, če 
 
     \item Zaporedje pa lahko tudi ostaja omejeno in hkrati nima limite. Na primer, zaporedje $a_n=(-1)^n$ izmenično zavzame vrednosti $-1$ in $1$, zato se njegovi členi ne približujejo enemu samemu številu.
 \end{itemize}
-\section{Kako rešujemo naloge?}
 
-\subsection*{Osnovne naloge o zaporedjih}
-
-\begin{enumerate}
-    \item Iz podatkov določi prvi člen $a_1$ in preveri, ali je zaporedje aritmetično (stalna razlika) ali geometrijsko (stalni količnik).
-    \item Zapiši ustrezno formulo za $a_n$ oziroma $S_n$.
-    \item Vstavi znane podatke in izračunaj iskano vrednost. Pri vsoti preveri, ali iščeš vsoto končnega ali neskončnega zaporedja.
-    \item Smiselno preveri rezultat, na primer tako, da iz splošnega člena izračunaš nekaj začetnih členov.
-\end{enumerate}
-
-Primer določanja splošnega člena: Aritmetično zaporedje ima $a_1=5$ in $d=-2$. Potem je
-\[
-    a_n=5+(n-1)(-2)=7-2n.
-\]
-
-\subsection*{Naloge z grafom zaporedja}
-
-\begin{enumerate}
-    \item Izračunaj nekaj začetnih členov zaporedja.
-    \item V koordinatni ravnini označi točke $(n,a_n)$: $n$ je na vodoravni, $a_n$ pa na navpični osi.
-    \item Izberi ustrezno merilo na oseh in označi posamezne točke. Točk ne povezuješ, saj graf zaporedja sestavljajo diskretne točke.
-    \item Iz razporeditve točk opiši, ali zaporedje narašča, pada ali se približuje določeni vrednosti.
-\end{enumerate}
-
-Na primer, za $a_n=\frac{1}{n}$ označimo točke $(1,1)$, $(2,\frac12)$, $(3,\frac13)$ in tako naprej. Točke se približujejo vodoravni osi, vendar ležijo nad njo.
-
-\subsection*{Naloge o omejenosti}
-
-Preveri, ali lahko najdeš števili $m$ in $M$, med katerima ležijo vsi členi:
-\[
-    m \le a_n \le M \qquad \text{za vsak } n\in\mathbb{N}.
-\]
-Pri iskanju mej uporabi predpis zaporedja. Na primer, za $a_n=\frac1n$ velja $0<a_n\le1$, zato je zaporedje omejeno. Za $a_n=n$ zgornje meje ni: za vsako izbrano število $M$ lahko izberemo dovolj velik $n$, da je $a_n>M$; zaporedje je neomejeno.
-
-\subsection*{Naloge o limiti}
-
-Pri določanju limite razmisli, kaj se s členom dogaja, ko $n$ neomejeno narašča:
-\begin{enumerate}
-    \item Preveri, ali se členi približujejo enemu številu. Če se, to število zapiši kot limito.
-    \item Uporabi znane primere, na primer $\frac1n\to0$ in geometrijsko zaporedje z $|q|<1$, ki se približuje $0$.
-    \item Loči med neomejenim zaporedjem, ki narašča brez meje, in omejenim zaporedjem, ki niha. Nihajoče zaporedje, kot je $a_n=(-1)^n$, nima limite.
-\end{enumerate}
-
-Na primer, pri $a_n=3+\frac2n$ člen $\frac2n$ teži k $0$, zato je
-\[
-    \lim_{n\to\infty}a_n=3.
-\]
-Pri $a_n=n$ členi naraščajo brez meje, zato zaporedje nima končne limite.
+% \section{Kako rešujemo naloge?}
+% 
+% \subsection*{Osnovne naloge o zaporedjih}
+% 
+% \begin{enumerate}
+%     \item Iz podatkov določi prvi člen $a_1$ in preveri, ali je zaporedje aritmetično (stalna razlika) ali geometrijsko (stalni količnik).
+%     \item Zapiši ustrezno formulo za $a_n$ oziroma $S_n$.
+%     \item Vstavi znane podatke in izračunaj iskano vrednost. Pri vsoti preveri, ali iščeš vsoto končnega ali neskončnega zaporedja.
+%     \item Smiselno preveri rezultat, na primer tako, da iz splošnega člena izračunaš nekaj začetnih členov.
+% \end{enumerate}
+% 
+% Primer določanja splošnega člena: Aritmetično zaporedje ima $a_1=5$ in $d=-2$. Potem je
+% \[
+%     a_n=5+(n-1)(-2)=7-2n.
+% \]
+% 
+% \subsection*{Naloge z grafom zaporedja}
+% 
+% \begin{enumerate}
+%     \item Izračunaj nekaj začetnih členov zaporedja.
+%     \item V koordinatni ravnini označi točke $(n,a_n)$: $n$ je na vodoravni, $a_n$ pa na navpični osi.
+%     \item Izberi ustrezno merilo na oseh in označi posamezne točke. Točk ne povezuješ, saj graf zaporedja sestavljajo diskretne točke.
+%     \item Iz razporeditve točk opiši, ali zaporedje narašča, pada ali se približuje določeni vrednosti.
+% \end{enumerate}
+% 
+% Na primer, za $a_n=\frac{1}{n}$ označimo točke $(1,1)$, $(2,\frac12)$, $(3,\frac13)$ in tako naprej. Točke se približujejo vodoravni osi, vendar ležijo nad njo.
+% 
+% \subsection*{Naloge o omejenosti}
+% 
+% Preveri, ali lahko najdeš števili $m$ in $M$, med katerima ležijo vsi členi:
+% \[
+%     m \le a_n \le M \qquad \text{za vsak } n\in\mathbb{N}.
+% \]
+% Pri iskanju mej uporabi predpis zaporedja. Na primer, za $a_n=\frac1n$ velja $0<a_n\le1$, zato je zaporedje omejeno. Za $a_n=n$ zgornje meje ni: za vsako izbrano število $M$ lahko izberemo dovolj velik $n$, da je $a_n>M$; zaporedje je neomejeno.
+% 
+% \subsection*{Naloge o limiti}
+% 
+% Pri določanju limite razmisli, kaj se s členom dogaja, ko $n$ neomejeno narašča:
+% \begin{enumerate}
+%     \item Preveri, ali se členi približujejo enemu številu. Če se, to število zapiši kot limito.
+%     \item Uporabi znane primere, na primer $\frac1n\to0$ in geometrijsko zaporedje z $|q|<1$, ki se približuje $0$.
+%     \item Loči med neomejenim zaporedjem, ki narašča brez meje, in omejenim zaporedjem, ki niha. Nihajoče zaporedje, kot je $a_n=(-1)^n$, nima limite.
+% \end{enumerate}
+% 
+% Na primer, pri $a_n=3+\frac2n$ člen $\frac2n$ teži k $0$, zato je
+% \[
+%     \lim_{n\to\infty}a_n=3.
+% \]
+% Pri $a_n=n$ členi naraščajo brez meje, zato zaporedje nima končne limite.
 
 % \section{Vaje za samostojno delo}
 % 
