@@ -24,3 +24,7 @@ PREGLED-SNOVI/*
 *.synctex.gz
 *.toc
 
+.venv
+__pycache__
+media
+
