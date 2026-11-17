@@ -16,9 +16,9 @@ UL_RED = "#E03127"
 UL_GRAY = "#58595B"
 UL_LIGHT_GRAY = "#E6E7E8"
 COLOR_A = "#40AEAD"
-COLOR_B = "#EC61A0"
-COLOR_C = "#453823"
-COLOR_D = "#80FF72"
+COLOR_B = "#F25E24"
+COLOR_C = "#00694E"
+COLOR_D = "#E03127"
 
 FONT_NAME = "Univerza Sans"
 FONT_DIR = Path(__file__).parent / "assets" / "fonts"
@@ -205,7 +205,7 @@ class PitagorovIzrek(Scene):
             "c^2",
             colors={0: COLOR_A, 2: COLOR_B, 4: COLOR_C},
             font_size=76,
-        ).move_to(DOWN * 0.5)
+        ).move_to(DOWN * 1.25)
 
         self.play(FadeIn(question), run_time=0.8)
         self.play(
@@ -243,7 +243,7 @@ class PitagorovIzrek(Scene):
         )
 
         title = slovene_text(
-            "Poglejmo si kvadrat \n s stranico a + b",
+            "Poglejmo si kvadrat \n    s stranico a + b",
             42,
             UL_GRAY,
             bold=True,
@@ -263,7 +263,7 @@ class PitagorovIzrek(Scene):
         ).set_z_index(6)
         side_dimensions = dimensions().set_z_index(5)
         explanation = slovene_text(
-            "in izračunajmo njegovo\n ploščino na 2 načina.",
+            "in izračunajmo njegovo\n  ploščino na 2 načina.",
             42,
             UL_GRAY,
             bold=True,
@@ -291,7 +291,7 @@ class PitagorovIzrek(Scene):
             42,
             UL_GRAY,
             bold=True,
-        ).next_to(title, DOWN * 1.5, buff=0.2)
+        ).next_to(title, DOWN * 1.75, buff=0.2)
         a_square = tile(0, 0, A, A, COLOR_A)
         b_square = tile(A, A, B, B, COLOR_B)
         ab_rectangle_1 = tile(A, 0, B, A, COLOR_D)
@@ -317,7 +317,8 @@ class PitagorovIzrek(Scene):
 
         formula_one = colored_math(
             "P_1=",
-            "(a+b)^2",
+            "(a+b)",
+            "(a+b)",
             "=",
             "a^2",
             "+",
@@ -325,19 +326,23 @@ class PitagorovIzrek(Scene):
             "+",
             "b^2",
             colors={
-                3: COLOR_A,
-                5: COLOR_D,
-                7: COLOR_B,
+                4: COLOR_A,
+                6: COLOR_D,
+                8: COLOR_B,
             },
             font_size=48,
         ).move_to(DOWN * 2.45)
 
-        self.play(Write(title), FadeIn(area_heading), run_time=0.7)
-        self.play(Write(formula_one[:3]), run_time=1.2)
+        self.play(Write(title), run_time=0.5)
+        self.wait(0.3)
+        self.play(FadeIn(area_heading), run_time=0.7)
+        self.wait(0.5)
+        self.play(Write(formula_one[:4]), run_time=1.2)
+        self.wait(0.6)
         self.play(
             FadeIn(area_pieces),
             FadeIn(area_labels),
-            Write(formula_one[3:]),
+            Write(formula_one[4:]),
             run_time=1.8,
         )
         self.wait(3)
@@ -405,6 +410,12 @@ class PitagorovIzrek(Scene):
         ).set_z_index(6)
 
         title_four = heading("2. NAČIN:")
+        area_heading_four = slovene_text(
+            "Izračunajmo ploščino\n  kvadrata po delih.",
+            42,
+            UL_GRAY,
+            bold=True,
+        ).next_to(title_four, DOWN * 1.75, buff=0.2)
         formula_two = colored_math(
             "P_2=",
             "c^2",
@@ -413,16 +424,14 @@ class PitagorovIzrek(Scene):
             colors={1: COLOR_C, 3: COLOR_D},
             font_size=52,
         ).move_to(DOWN * 2.35)
-        area_note_c = slovene_text(
-            "$c^2$ je ploščina srednjega kvadrata",
-            29,
-            COLOR_C,
-        ).move_to(DOWN * 3.35)
-        area_note_triangles = slovene_text(
-            "$4·\frac{ab}{2}$ je ploščina štirih trikotnikov",
-            29,
-            COLOR_D,
-        ).move_to(DOWN * 4.05)
+        area_note_c = VGroup(
+            MathTex("c^2", font_size=40, color=COLOR_C),
+            slovene_text("je ploščina srednjega kvadrata", 29, COLOR_C),
+        ).arrange(RIGHT, buff=0.12, aligned_edge=DOWN).move_to(DOWN * 3.35)
+        area_note_triangles = VGroup(
+            MathTex(r"4\cdot\frac{ab}{2}", font_size=40, color=COLOR_D),
+            slovene_text("je ploščina štirih trikotnikov", 29, COLOR_D),
+        ).arrange(RIGHT, buff=0.12, aligned_edge=DOWN).move_to(DOWN * 4.05)
 
         self.play(
             FadeOut(area_labels),
@@ -444,7 +453,9 @@ class PitagorovIzrek(Scene):
             Create(inner_square),
             run_time=3,
         )
-        self.wait(0.5)
+        self.wait(0.3)
+        self.play(FadeIn(area_heading_four), run_time=0.7)
+        self.wait(0.3)
         self.play(FadeIn(c_labels), FadeIn(area_labels_two), run_time=0.8)
         self.wait(0.6)
         self.play(Write(formula_two), run_time=1.6)
@@ -463,6 +474,7 @@ class PitagorovIzrek(Scene):
                     inner_square,
                     c_labels,
                     area_labels_two,
+                    area_heading_four,
                     formula_two,
                     area_note_c,
                     area_note_triangles,
@@ -486,14 +498,16 @@ class PitagorovIzrek(Scene):
             font_size=54,
         ).move_to(UP * 3.45)
         equation_one = colored_math(
-            "(a",
+            "(",
+            "a",
             "+",
-            "b)^2",
+            "b",
+            ")^2",
             "=",
             "c^2",
             "+",
             r"4\cdot\frac{ab}{2}",
-            colors={0: COLOR_A, 2: COLOR_B, 4: COLOR_C, 6: COLOR_D},
+            colors={1: COLOR_A, 3: COLOR_B, 6: COLOR_C, 8: COLOR_D},
             font_size=44,
         ).move_to(UP * 2.25)
         equation_two = colored_math(
@@ -523,7 +537,7 @@ class PitagorovIzrek(Scene):
         self.play(Write(equation_two), run_time=1.6)
 
         subtract_note = slovene_text(
-            "Na obeh straneh odštejemo 2ab.",
+            "Na obeh straneh odštejemo 2ab in dobimo:",
             32,
         ).move_to(DOWN * 0.25)
         self.play(FadeIn(subtract_note), run_time=0.6)
@@ -577,11 +591,11 @@ class PitagorovIzrek(Scene):
             run_time=0.8,
         )
         title_six = slovene_text(
-            "DOKAZALI SMO\nPITAGOROV IZREK! ",
+            " DOKAZALI SMO\nPITAGOROV IZREK! ",
             49,
             UL_RED,
             bold=True,
-        ).move_to(UP * 6.35)
+        ).move_to(UP * 5.35)
         final_triangle = (
             VGroup(
                 triangle_fill.copy(),
