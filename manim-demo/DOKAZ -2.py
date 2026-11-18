@@ -53,6 +53,28 @@ def slovene_text(
         )
 
 
+def centered_text(
+    text: str,
+    font_size: int,
+    color: str = UL_GRAY,
+    bold: bool = False,
+) -> Paragraph:
+    """Večvrstično besedilo, kjer je vsaka vrstica sredinsko poravnana."""
+    with (
+        register_font(FONT_DIR / "UniverzaSans-Regular.ttf"),
+        register_font(FONT_DIR / "UniverzaSans-Bold.ttf"),
+    ):
+        return Paragraph(
+            *[line.strip() for line in text.split("\n")],
+            font=FONT_NAME,
+            font_size=font_size,
+            color=color,
+            weight=BOLD if bold else NORMAL,
+            line_spacing=1.05,
+            alignment="center",
+        )
+
+
 def colored_math(
     *parts: str,
     colors: dict[int, str],
@@ -150,13 +172,35 @@ class PitagorovIzrek(Scene):
                 stroke_width=3,
             ).set_z_index(1)
 
+        def side_square(p1, p2, opposite, color):
+            """Kvadrat nad stranico p1-p2 (na strani, ki je stran od opposite)
+            in njegova 'sploščena' začetna oblika za animacijo rasti."""
+            direction = p2 - p1
+            length = np.linalg.norm(direction)
+            normal = np.array([-direction[1], direction[0], 0]) / length
+            if np.dot(normal, opposite - p1) > 0:
+                normal = -normal
+            style = dict(
+                color=color,
+                fill_color=color,
+                fill_opacity=0.28,
+                stroke_width=4,
+            )
+            square = Polygon(
+                p1, p2, p2 + normal * length, p1 + normal * length, **style
+            ).set_z_index(1)
+            flat = Polygon(
+                p1, p2, p2 + normal * 0.01, p1 + normal * 0.01, **style
+            ).set_z_index(1)
+            return flat, square
+
         # 1. Uvodno vprašanje
         title = slovene_text(
             "GEOMETRIJSKI DOKAZ\nPITAGOROVEGA IZREKA",
             46,
             UL_RED,
             bold=True,
-        ).move_to(DOWN * 3.50)
+        ).move_to(DOWN * 5.4)
 
         a_point = LEFT * 2.6 + UP * 0.6
         b_point = RIGHT * 2.6 + UP * 0.6
@@ -177,8 +221,10 @@ class PitagorovIzrek(Scene):
             Line(b_point, c_point),
             length=0.42,
             quadrant=(-1, 1),
-            color=UL_GRAY,
+            color=UL_RED,
+            stroke_width=6,
         )
+        VGroup(side_a, side_b, side_c, left_angle).set_z_index(3)
 
         label_a = MathTex("a", color=COLOR_A).scale(0.95).next_to(
             Line(a_point, b_point), DOWN, buff=0.16
@@ -189,14 +235,13 @@ class PitagorovIzrek(Scene):
         label_c = MathTex("c", color=COLOR_C).scale(0.95).move_to(
             (a_point + c_point) / 2 + LEFT * 0.35 + UP * 0.35
         )
-        triangle_labels = VGroup(label_a, label_b, label_c)
-
+        triangle_labels = VGroup(label_a, label_b, label_c).set_z_index(4)
         question = slovene_text(
             "Zakaj velja Pitagorov izrek?",
             46,
             UL_GRAY,
             bold=True,
-        ).move_to(UP * 5.8)
+        ).move_to(UP * 6.2)
         opening_formula = colored_math(
             "a^2",
             "+",
@@ -205,24 +250,92 @@ class PitagorovIzrek(Scene):
             "c^2",
             colors={0: COLOR_A, 2: COLOR_B, 4: COLOR_C},
             font_size=76,
-        ).move_to(DOWN * 1.25)
+        ).move_to(DOWN * 3.85)
 
-        self.play(FadeIn(question), run_time=0.8)
+        # Trikotnik se pojavi naenkrat, stranice so že označene.
         self.play(
-            FadeIn(triangle_fill),
-            Create(side_a),
-            Create(side_b),
-            Create(side_c),
-            run_time=1.6,
+            FadeIn(question),
+            FadeIn(VGroup(triangle_fill, side_a, side_b, side_c, triangle_labels)),
+            run_time=1.2,
         )
+
+        # Poudarimo pravi kot.
+        self.play(Create(left_angle), run_time=0.6)
         self.play(
-            FadeIn(left_angle),
-            Write(triangle_labels),
-            run_time=0.9,
+            Indicate(left_angle, scale_factor=1.8, color=UL_RED),
+            Flash(
+                left_angle.get_center(),
+                color=UL_RED,
+                line_length=0.25,
+                flash_radius=0.45,
+                num_lines=10,
+            ),
+            run_time=1.3,
         )
-        self.play(Write(opening_formula), run_time=1.2)
-        self.play(Write(title), run_time=1.2)
-        self.wait(2.2)
+        self.wait(0.6)
+
+        # Kopija velikega trikotnika za zaključni kader.
+        final_triangle_template = VGroup(
+            triangle_fill, side_a, side_b, side_c, left_angle, triangle_labels
+        ).copy()
+
+        # Trikotnik zmanjšamo, oznake stranic premaknemo v notranjost.
+        shrink = 3.0 / np.linalg.norm(b_point - a_point)
+        right_vertex = RIGHT * 1.5 + UP * 0.3
+        small_a = right_vertex + (a_point - b_point) * shrink
+        small_c = right_vertex + (c_point - b_point) * shrink
+        hyp_mid = (small_a + small_c) / 2
+        inward = np.array([-(small_c - small_a)[1], (small_c - small_a)[0], 0])
+        inward = inward / np.linalg.norm(inward)
+        if np.dot(inward, right_vertex - hyp_mid) < 0:
+            inward = -inward
+        self.play(
+            VGroup(triangle_fill, side_a, side_b, side_c, left_angle)
+            .animate.scale(shrink, about_point=b_point)
+            .shift(right_vertex - b_point),
+            label_a.animate.scale(0.8).move_to(
+                (small_a + right_vertex) / 2 + UP * 0.28 + LEFT * 0.3
+            ),
+            label_b.animate.scale(0.8).move_to(
+                (right_vertex + small_c) / 2 + LEFT * 0.28
+            ),
+            label_c.animate.scale(0.8).move_to(hyp_mid + inward * 0.32),
+            run_time=1.5,
+        )
+
+        # Kvadrati nad stranicami a, b in c ter sproti formula.
+        p_a, p_b, p_c = side_a.get_start(), side_a.get_end(), side_b.get_end()
+        side_squares = VGroup()
+        square_labels = VGroup()
+        formula_parts = [
+            opening_formula[0],
+            VGroup(opening_formula[1], opening_formula[2]),
+            VGroup(opening_formula[3], opening_formula[4]),
+        ]
+        for (p1, p2, opposite), tex, color, part in zip(
+            [(p_a, p_b, p_c), (p_b, p_c, p_a), (p_a, p_c, p_b)],
+            ["a^2", "b^2", "c^2"],
+            [COLOR_A, COLOR_B, COLOR_C],
+            formula_parts,
+        ):
+            flat, square = side_square(p1, p2, opposite, color)
+            square_label = (
+                MathTex(tex, color=color, font_size=60)
+                .move_to(square.get_center())
+                .set_z_index(4)
+            )
+            self.play(
+                ReplacementTransform(flat, square),
+                Write(square_label),
+                Write(part),
+                run_time=1.5,
+            )
+            self.wait(0.6)
+            side_squares.add(square)
+            square_labels.add(square_label)
+
+        self.play(Write(title), run_time=1.0)
+        self.wait(1.8)
 
         # 2. Kvadrat s stranico a + b
         self.play(
@@ -235,6 +348,8 @@ class PitagorovIzrek(Scene):
                     side_c,
                     left_angle,
                     triangle_labels,
+                    side_squares,
+                    square_labels,
                     question,
                     opening_formula,
                 )
@@ -286,12 +401,16 @@ class PitagorovIzrek(Scene):
             run_time=0.6,
         )
         title = heading("1. NAČIN:")
-        area_heading = slovene_text(
-            "Izračunajmo ploščino\n celotnega kvadrata.",
-            42,
-            UL_GRAY,
-            bold=True,
-        ).next_to(title, DOWN * 1.75, buff=0.2)
+        area_heading = (
+            centered_text(
+                "Izračunajmo ploščino\nkvadrata s stranico a + b.",
+                42,
+                UL_GRAY,
+                bold=True,
+            )
+            .next_to(title, DOWN, buff=0.35)
+            .set_x(0)
+        )
         a_square = tile(0, 0, A, A, COLOR_A)
         b_square = tile(A, A, B, B, COLOR_B)
         ab_rectangle_1 = tile(A, 0, B, A, COLOR_D)
@@ -315,10 +434,12 @@ class PitagorovIzrek(Scene):
             ),
         ).set_z_index(6)
 
+        # Indeksi: 0 P_1=, 1 (, 2 a, 3 +, 4 b, 5 ), 6 (, 7 a, 8 +, 9 b, 10 ),
+        #          11 =, 12 a^2, 13 +, 14 2ab, 15 +, 16 b^2
         formula_one = colored_math(
             "P_1=",
-            "(a+b)",
-            "(a+b)",
+            "(", "a", "+", "b", ")",
+            "(", "a", "+", "b", ")",
             "=",
             "a^2",
             "+",
@@ -326,26 +447,76 @@ class PitagorovIzrek(Scene):
             "+",
             "b^2",
             colors={
-                4: COLOR_A,
-                6: COLOR_D,
-                8: COLOR_B,
+                2: COLOR_A,
+                4: COLOR_B,
+                7: COLOR_A,
+                9: COLOR_B,
+                12: COLOR_A,
+                14: COLOR_D,
+                16: COLOR_B,
             },
             font_size=48,
-        ).move_to(DOWN * 2.45)
+        ).move_to(DOWN * 3.0)
 
-        self.play(Write(title), run_time=0.5)
+        arc_top_y = formula_one[1].get_top()[1] + 0.08
+        arc_bottom_y = formula_one[1].get_bottom()[1] - 0.08
+
+        def expansion_arc(left, right, above: bool) -> ArcBetweenPoints:
+            """Rdeča krivulja, ki poveže dva člena, ki ju zmnožimo."""
+            y = arc_top_y if above else arc_bottom_y
+            return ArcBetweenPoints(
+                np.array([left.get_x(), y, 0]),
+                np.array([right.get_x(), y, 0]),
+                angle=-0.45 * PI if above else 0.45 * PI,
+                color=UL_RED,
+                stroke_width=3.5,
+            ).set_z_index(7)
+
+        a1, b1, a2, b2 = formula_one[2], formula_one[4], formula_one[7], formula_one[9]
+        arc_aa = expansion_arc(a1, a2, above=True)
+        arc_ab = expansion_arc(a1, b2, above=False)
+        arc_ba = expansion_arc(b1, a2, above=False)
+        arc_bb = expansion_arc(b1, b2, above=True)
+        expansion_arcs = VGroup(arc_aa, arc_ab, arc_ba, arc_bb)
+
+        self.play(Write(title), run_time=0.8)
         self.wait(0.3)
-        self.play(FadeIn(area_heading), run_time=0.7)
+        self.play(FadeIn(area_heading), run_time=0.9)
         self.wait(0.5)
-        self.play(Write(formula_one[:4]), run_time=1.2)
+        self.play(Write(formula_one[:12]), run_time=1.6)
         self.wait(0.6)
+
+        # a · a = a^2
+        self.play(Create(arc_aa), run_time=0.8)
         self.play(
-            FadeIn(area_pieces),
-            FadeIn(area_labels),
-            Write(formula_one[4:]),
-            run_time=1.8,
+            Write(formula_one[12]),
+            FadeIn(a_square),
+            FadeIn(area_labels[0]),
+            run_time=1.2,
         )
-        self.wait(3)
+        self.wait(0.5)
+
+        # a · b + b · a = 2ab
+        self.play(Create(arc_ab), Create(arc_ba), run_time=0.9)
+        self.play(
+            Write(formula_one[13:15]),
+            FadeIn(ab_rectangle_1),
+            FadeIn(ab_rectangle_2),
+            FadeIn(area_labels[2]),
+            FadeIn(area_labels[3]),
+            run_time=1.2,
+        )
+        self.wait(0.5)
+
+        # b · b = b^2
+        self.play(Create(arc_bb), run_time=0.8)
+        self.play(
+            Write(formula_one[15:]),
+            FadeIn(b_square),
+            FadeIn(area_labels[1]),
+            run_time=1.2,
+        )
+        self.wait(2.5)
 
         # 4. Drugi način: štirje trikotniki in kvadrat c^2
         triangle_vertices = [
@@ -436,6 +607,7 @@ class PitagorovIzrek(Scene):
         self.play(
             FadeOut(area_labels),
             FadeOut(formula_one),
+            FadeOut(expansion_arcs),
             FadeOut(title),
             FadeOut(area_heading),
             FadeIn(title_four),
@@ -596,17 +768,7 @@ class PitagorovIzrek(Scene):
             UL_RED,
             bold=True,
         ).move_to(UP * 5.35)
-        final_triangle = (
-            VGroup(
-                triangle_fill.copy(),
-                side_a.copy(),
-                side_b.copy(),
-                side_c.copy(),
-                left_angle.copy(),
-                triangle_labels.copy(),
-            )
-            .move_to(UP * 1.2)
-        )
+        final_triangle = final_triangle_template.move_to(UP * 1.2)
         smile = VGroup(
             Arc(
                 start_angle=PI,
