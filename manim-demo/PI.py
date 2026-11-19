@@ -21,7 +21,8 @@ COLOR_C = "#00694E"
 COLOR_D = "#E03127"
 
 FONT_NAME = "Univerza Sans"
-FONT_DIR = Path(__file__).parent / "assets" / "fonts"
+ASSET_DIR = Path(__file__).parent / "assets"
+FONT_DIR = ASSET_DIR / "fonts"
 
 A = 2.4
 B = 1.6
@@ -819,17 +820,13 @@ class PitagorovIzrek(Scene):
         derivation = VGroup(eq_p, eq_full, subtract_note, eq_sub, strikes, eq_result)
         # eq_result ni del izpeljave: sestavljajo ga kopije, ki so že na sceni.
         derivation.remove(eq_result)
-        smile = VGroup(
-            Arc(
-                start_angle=PI,
-                angle=PI,
-                radius=0.6,
-                color=UL_GRAY,
-                stroke_width=6,
-            ).move_to(DOWN * 4.1),
-            Dot(LEFT * 0.3 + DOWN * 3.3, color=UL_GRAY, radius=0.07),
-            Dot(RIGHT * 0.3 + DOWN * 3.3, color=UL_GRAY, radius=0.07),
-        ).set_z_index(8)
+        # Pitagora (slike pripravi assets/pripravi_pitagoro.py).
+        pythagoras = {
+            name: ImageMobject(str(ASSET_DIR / f"pitagora_{name}.png"))
+            .set_height(3.8)
+            .move_to(DOWN * 4.35)
+            for name in ["odprto", "priprto", "zaprto"]
+        }
 
         self.play(
             ReplacementTransform(equate_title, final_title),
@@ -838,8 +835,18 @@ class PitagorovIzrek(Scene):
         )
         self.play(FadeIn(closing_triangle, scale=0.9), run_time=1.2)
         self.wait(0.4)
-        self.play(FadeIn(smile, scale=0.8), run_time=0.8)
-        self.wait(3.5)
+        self.play(FadeIn(pythagoras["odprto"], scale=0.9), run_time=0.8)
+        self.wait(0.9)
+
+        # Mežik: odprto -> priprto -> zaprto -> priprto -> odprto
+        self.add(pythagoras["priprto"])
+        self.wait(0.05)
+        self.add(pythagoras["zaprto"])
+        self.wait(0.4)
+        self.remove(pythagoras["zaprto"])
+        self.wait(0.05)
+        self.remove(pythagoras["priprto"])
+        self.wait(2.5)
 
 
 class Thumbnail(Scene):
