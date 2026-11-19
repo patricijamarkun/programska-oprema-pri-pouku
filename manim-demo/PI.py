@@ -25,9 +25,6 @@ FONT_DIR = Path(__file__).parent / "assets" / "fonts"
 
 A = 2.4
 B = 1.6
-S = A + B
-DIAGRAM_SCALE = 1.1
-DIAGRAM_CENTER = UP * 1.0
 
 
 def slovene_text(
@@ -119,83 +116,11 @@ class PitagorovIzrek(Scene):
     def construct(self):
         self.camera.background_color = "#FFFFFF"
 
-        def point(x: float, y: float) -> np.ndarray:
-            return DIAGRAM_CENTER + np.array(
-                [
-                    (x - S / 2) * DIAGRAM_SCALE,
-                    (y - S / 2) * DIAGRAM_SCALE,
-                    0,
-                ]
-            )
-
         def heading(text: str, size: int = 48) -> Text:
             return slovene_text(text, size, UL_RED, bold=True).move_to(UP * 6.55)
 
-        def dimensions() -> VGroup:
-            bottom_a = DoubleArrow(
-                point(0, 0) + DOWN * 0.12,
-                point(A, 0) + DOWN * 0.12,
-                color=COLOR_A,
-                stroke_width=6,
-                buff=0,
-                tip_length=0.12,
-            )
-            bottom_b = DoubleArrow(
-                point(A, 0) + DOWN * 0.12,
-                point(S, 0) + DOWN * 0.12,
-                color=COLOR_B,
-                stroke_width=6,
-                buff=0,
-                tip_length=0.12,
-            )
-            right_a = DoubleArrow(
-                point(S, 0) + RIGHT * 0.12,
-                point(S, A) + RIGHT * 0.12,
-                color=COLOR_A,
-                stroke_width=6,
-                buff=0,
-                tip_length=0.12,
-            )
-            right_b = DoubleArrow(
-                point(S, A) + RIGHT * 0.12,
-                point(S, S) + RIGHT * 0.12,
-                color=COLOR_B,
-                stroke_width=6,
-                buff=0,
-                tip_length=0.12,
-            )
-
-            labels = VGroup(
-                MathTex("a", color=COLOR_A).scale(0.95).next_to(
-                    bottom_a, DOWN, buff=0.04
-                ),
-                MathTex("b", color=COLOR_B).scale(0.95).next_to(
-                    bottom_b, DOWN, buff=0.04
-                ),
-                MathTex("a", color=COLOR_A).scale(0.95).next_to(
-                    right_a, RIGHT, buff=0.05
-                ),
-                MathTex("b", color=COLOR_B).scale(0.95).next_to(
-                    right_b, RIGHT, buff=0.05
-                ),
-            )
-            return VGroup(bottom_a, bottom_b, right_a, right_b, labels)
-
-        def tile(x: float, y: float, width: float, height: float, color: str):
-            return Polygon(
-                point(x, y),
-                point(x + width, y),
-                point(x + width, y + height),
-                point(x, y + height),
-                color=color,
-                fill_color=color,
-                fill_opacity=0.28,
-                stroke_width=3,
-            ).set_z_index(1)
-
-
         # 1. Uvodno vprašanje
-        title = slovene_text(
+        title = centered_text(
             "GEOMETRIJSKI DOKAZ\nPITAGOROVEGA IZREKA",
             46,
             UL_RED,
@@ -516,481 +441,405 @@ class PitagorovIzrek(Scene):
         self.play(FadeIn(area_two_ways), run_time=1.0)
         self.wait(2.5)
 
-        # ===== ZAKOMENTIRANO: kadri po 1. kadru (od ~16 s naprej) =====
-        # # 2. Kvadrat s stranico a + b
-        # self.play(
-            # FadeOut(
-                # VGroup(
-                    # title,
-                    # triangle_fill,
-                    # side_a,
-                    # side_b,
-                    # side_c,
-                    # left_angle,
-                    # triangle_labels,
-                    # side_squares,
-                    # square_labels,
-                    # question,
-                    # opening_formula,
-                # )
-            # ),
-            # run_time=0.8,
-        # )
+        # 3. 1. način: notranji kvadrat + 4 trikotniki
+        def note_text(text: str, color: str, math: str | None = None) -> VGroup:
+            """Zapis pod naslovom; po potrebi z matematičnim delom na koncu."""
+            words = centered_text(text, 34, color, bold=True)
+            group = VGroup(words)
+            if math is not None:
+                formula = MathTex(math, color=color, font_size=44)
+                last_line = words[-1]
+                formula.next_to(last_line, RIGHT, buff=0.16)
+                if r"\frac" in math:
+                    # ulomek sredinsko ob zadnji vrstici
+                    formula.match_y(last_line)
+                else:
+                    # poravnava po osnovni črti (zadnja črka nima spodnjega dela)
+                    formula.shift(
+                        UP * (last_line[-1].get_bottom()[1] - formula[0][0].get_bottom()[1])
+                    )
+                group.add(formula)
+            if group.width > 8.3:
+                group.scale_to_fit_width(8.3)
+            return group
 
-        # title = slovene_text(
-            # "Poglejmo si kvadrat \n    s stranico a + b",
-            # 42,
-            # UL_GRAY,
-            # bold=True,
-        # ).move_to(UP * 5.55)
-        # outer_square = Square(
-            # side_length=S * DIAGRAM_SCALE,
-            # color=UL_GRAY,
-            # stroke_width=4,
-        # ).move_to(DIAGRAM_CENTER).set_z_index(4)
-        # side_length_labels = VGroup(
-            # MathTex("a+b", color=UL_GRAY, font_size=40).next_to(
-                # outer_square, UP, buff=0.18
-            # ),
-            # MathTex("a+b", color=UL_GRAY, font_size=40).next_to(
-                # outer_square, LEFT, buff=0.2
-            # ),
-        # ).set_z_index(6)
-        # side_dimensions = dimensions().set_z_index(5)
-        # explanation = slovene_text(
-            # "in izračunajmo njegovo\n  ploščino na 2 načina.",
-            # 42,
-            # UL_GRAY,
-            # bold=True,
-        # ).move_to(DOWN * 3.55)
+        method_one_title = heading("1. NAČIN:").to_edge(LEFT, buff=0.6)
+        note_intro = note_text("Ploščino kvadrata sestavljata:", UL_GRAY)
+        note_c = note_text("ploščina notranjega kvadrata", COLOR_C, "c^2")
+        note_triangles = note_text(
+            "ploščine 4 enakih\npravokotnih trikotnikov", COLOR_D, r"\frac{ab}{2}"
+        )
+        # Zapisi drug pod drugim, zgornji rob tik pod naslovom.
+        notes = VGroup(note_intro, note_c, note_triangles).arrange(DOWN, buff=0.18)
+        notes.set_x(0).shift(UP * (5.95 - notes.get_top()[1]))
 
-        # self.play(
-            # Write(title),
-            # Create(outer_square),
-            # FadeIn(side_length_labels),
-            # run_time=1.5,
-        # )
-        # self.play(FadeIn(side_dimensions), run_time=0.8)
-        # self.play(FadeIn(explanation), run_time=0.6)
-        # self.wait(2)
+        # Obarvanje lika: zelen notranji kvadrat in rdeči trikotniki.
+        inner_square_c = Polygon(
+            q(a_, 0), q(s, a_), q(b_, s), q(0, b_),
+            stroke_width=0,
+            fill_color=COLOR_C,
+            fill_opacity=0.34,
+        ).set_z_index(1)
+        inner_label = MathTex("c^2", color=COLOR_C, font_size=60).move_to(
+            square_center
+        ).set_z_index(4)
+        triangle_area_labels = VGroup(
+            *[
+                MathTex(r"\frac{ab}{2}", color=COLOR_D, font_size=38)
+                .move_to(np.mean(vertices, axis=0))
+                .set_z_index(4)
+                for vertices in target_vertices
+            ]
+        )
 
-        # # 3. Prvi način: kvadrati in pravokotnika
-        # self.play(
-            # FadeOut(explanation),
-            # FadeOut(title),
-            # run_time=0.6,
-        # )
-        # title = heading("1. NAČIN:")
-        # area_heading = (
-            # centered_text(
-                # "Izračunajmo ploščino\nkvadrata s stranico a + b.",
-                # 42,
-                # UL_GRAY,
-                # bold=True,
-            # )
-            # .next_to(title, DOWN, buff=0.35)
-            # .set_x(0)
-        # )
-        # a_square = tile(0, 0, A, A, COLOR_A)
-        # b_square = tile(A, A, B, B, COLOR_B)
-        # ab_rectangle_1 = tile(A, 0, B, A, COLOR_D)
-        # ab_rectangle_2 = tile(0, A, A, B, COLOR_D)
-        # area_pieces = VGroup(
-            # a_square,
-            # b_square,
-            # ab_rectangle_1,
-            # ab_rectangle_2,
-        # )
-        # area_labels = VGroup(
-            # MathTex("a^2", color=COLOR_A, font_size=48).move_to(point(A / 2, A / 2)),
-            # MathTex("b^2", color=COLOR_B, font_size=44).move_to(
-                # point(A + B / 2, A + B / 2)
-            # ),
-            # MathTex("ab", color=COLOR_D, font_size=44).move_to(
-                # point(A + B / 2, A / 2)
-            # ),
-            # MathTex("ab", color=COLOR_D, font_size=44).move_to(
-                # point(A / 2, A + B / 2)
-            # ),
-        # ).set_z_index(6)
+        # Formula v eni vrstici; zadnji člen se preuredi kar na mestu:
+        # 4·ab/2  ->  (4/2)·ab  ->  2ab
+        p1_versions = [
+            colored_math(
+                "P_1", "=", "c^2", "+", last,
+                colors={2: COLOR_C, 4: COLOR_D},
+                font_size=52,
+            )
+            for last in [r"4\cdot\frac{ab}{2}", r"\frac{4}{2}\cdot ab", "2ab"]
+        ]
+        p1_line = p1_versions[0].move_to(DOWN * 4.15)
+        for version in p1_versions[1:]:
+            version.shift(p1_line[1].get_center() - version[1].get_center())
 
-        # # Indeksi: 0 P_1=, 1 (, 2 a, 3 +, 4 b, 5 ), 6 (, 7 a, 8 +, 9 b, 10 ),
-        # #          11 =, 12 a^2, 13 +, 14 2ab, 15 +, 16 b^2
-        # formula_one = colored_math(
-            # "P_1=",
-            # "(", "a", "+", "b", ")",
-            # "(", "a", "+", "b", ")",
-            # "=",
-            # "a^2",
-            # "+",
-            # "2ab",
-            # "+",
-            # "b^2",
-            # colors={
-                # 2: COLOR_A,
-                # 4: COLOR_B,
-                # 7: COLOR_A,
-                # 9: COLOR_B,
-                # 12: COLOR_A,
-                # 14: COLOR_D,
-                # 16: COLOR_B,
-            # },
-            # font_size=48,
-        # ).move_to(DOWN * 3.0)
+        # Kvadrat se malo spusti, da je nad njim prostor za tri zapise.
+        figure_shift = DOWN * 0.85
+        VGroup(inner_square_c, inner_label, triangle_area_labels).shift(figure_shift)
 
-        # arc_top_y = formula_one[1].get_top()[1] + 0.08
-        # arc_bottom_y = formula_one[1].get_bottom()[1] - 0.08
+        self.play(
+            FadeOut(area_two_ways),
+            VGroup(four_triangles, four_labels).animate.shift(figure_shift),
+            run_time=0.8,
+        )
+        self.play(Write(method_one_title), run_time=0.8)
+        self.wait(0.3)
+        self.play(FadeIn(note_intro), Write(p1_line[:2]), run_time=1.0)
+        self.wait(0.8)
 
-        # def expansion_arc(left, right, above: bool) -> ArcBetweenPoints:
-            # """Rdeča krivulja, ki poveže dva člena, ki ju zmnožimo."""
-            # y = arc_top_y if above else arc_bottom_y
-            # return ArcBetweenPoints(
-                # np.array([left.get_x(), y, 0]),
-                # np.array([right.get_x(), y, 0]),
-                # angle=-0.45 * PI if above else 0.45 * PI,
-                # color=UL_RED,
-                # stroke_width=3.5,
-            # ).set_z_index(7)
+        # Zeleno: notranji kvadrat c^2
+        self.play(
+            FadeIn(note_c, shift=DOWN * 0.15),
+            Write(p1_line[2]),
+            FadeIn(inner_square_c),
+            Write(inner_label),
+            run_time=1.3,
+        )
+        self.wait(0.8)
 
-        # a1, b1, a2, b2 = formula_one[2], formula_one[4], formula_one[7], formula_one[9]
-        # arc_aa = expansion_arc(a1, a2, above=True)
-        # arc_ab = expansion_arc(a1, b2, above=False)
-        # arc_ba = expansion_arc(b1, a2, above=False)
-        # arc_bb = expansion_arc(b1, b2, above=True)
-        # expansion_arcs = VGroup(arc_aa, arc_ab, arc_ba, arc_bb)
+        self.play(Write(p1_line[3]), run_time=0.6)
+        self.wait(0.3)
 
-        # self.play(Write(title), run_time=0.8)
-        # self.wait(0.3)
-        # self.play(FadeIn(area_heading), run_time=0.9)
-        # self.wait(0.5)
-        # self.play(Write(formula_one[:12]), run_time=1.6)
-        # self.wait(0.6)
+        # Rdeče: 4 trikotniki s ploščino ab/2
+        self.play(
+            FadeIn(note_triangles, shift=DOWN * 0.15),
+            Write(p1_line[4]),
+            *[tri[0].animate.set_fill(COLOR_D, opacity=0.28) for tri in four_triangles],
+            FadeIn(triangle_area_labels),
+            run_time=1.3,
+        )
+        self.wait(1.2)
 
-        # # a · a = a^2
-        # self.play(Create(arc_aa), run_time=0.8)
-        # self.play(
-            # Write(formula_one[12]),
-            # FadeIn(a_square),
-            # FadeIn(area_labels[0]),
-            # run_time=1.2,
-        # )
-        # self.wait(0.5)
+        # Preurejanje zadnjega člena v isti vrstici.
+        self.play(
+            TransformMatchingShapes(p1_line[4], p1_versions[1][4]), run_time=1.0
+        )
+        self.wait(0.5)
+        self.play(
+            TransformMatchingShapes(p1_versions[1][4], p1_versions[2][4]),
+            run_time=1.0,
+        )
+        # Krajšo vrstico poravnamo nazaj na sredino.
+        final_p1 = VGroup(*p1_line[:4], p1_versions[2][4])
+        self.play(final_p1.animate.set_x(0), run_time=0.6)
+        self.wait(2.0)
 
-        # # a · b + b · a = 2ab
-        # self.play(Create(arc_ab), Create(arc_ba), run_time=0.9)
-        # self.play(
-            # Write(formula_one[13:15]),
-            # FadeIn(ab_rectangle_1),
-            # FadeIn(ab_rectangle_2),
-            # FadeIn(area_labels[2]),
-            # FadeIn(area_labels[3]),
-            # run_time=1.2,
-        # )
-        # self.wait(0.5)
+        # 4. 2. način: P_2 = (a+b)(a+b) = a^2 + 2ab + b^2
+        # Indeksi trikotnikov: 0 zgoraj levo, 1 zgoraj desno, 2 spodaj levo,
+        # 3 spodaj desno; v vsakem: 0 polnilo, 1 kateta a, 2 kateta b,
+        # 3 hipotenuza, 4 pravi kot. Oznake: 0 a, 1 b, 2 c.
+        tl, tr, bl, br = four_triangles
+        lab_tl, lab_tr, lab_bl, lab_br = four_labels
 
-        # # b · b = b^2
-        # self.play(Create(arc_bb), run_time=0.8)
-        # self.play(
-            # Write(formula_one[15:]),
-            # FadeIn(b_square),
-            # FadeIn(area_labels[1]),
-            # run_time=1.2,
-        # )
-        # self.wait(2.5)
+        # Desna in spodnja stranica ostaneta barvni z oznakami a, b.
+        kept_sides = VGroup(tr[2], br[1], bl[1], br[2])
+        kept_labels = VGroup(lab_tr[1], lab_br[0], lab_bl[0], lab_br[1])
+        # Zgornja in leva stranica ostaneta vidni, le posivita.
+        gray_sides = VGroup(tl[2], tr[1], tl[1], bl[2])
+        removed = VGroup(
+            *[tri[k] for tri in four_triangles for k in (0, 3, 4)],
+            *[labels[2] for labels in four_labels],
+            lab_tl[0], lab_tl[1], lab_tr[0], lab_bl[1],
+            inner_square_c, inner_label, triangle_area_labels,
+            notes, final_p1,
+        )
 
-        # # 4. Drugi način: štirje trikotniki in kvadrat c^2
-        # triangle_vertices = [
-            # [(0, 0), (A, 0), (0, B)],
-            # [(S, 0), (A, 0), (S, A)],
-            # [(S, S), (S, A), (B, S)],
-            # [(0, S), (B, S), (0, B)],
-        # ]
-        # triangles = VGroup(
-            # *[
-                # Polygon(
-                    # *[point(x, y) for x, y in vertices],
-                    # color=COLOR_D,
-                    # fill_color=COLOR_D,
-                    # fill_opacity=0,  # pobarvajo se šele v rdečem koraku
-                    # # Brez obrobe: stranice trikotnikov so že stranice velikega
-                    # # kvadrata in zelene stranice c (rdeča črta bi prehitevala).
-                    # stroke_width=0,
-                # ).set_z_index(1)
-                # for vertices in triangle_vertices
-            # ]
-        # )
-        # inner_square = Polygon(
-            # point(A, 0),
-            # point(S, A),
-            # point(B, S),
-            # point(0, B),
-            # color=COLOR_C,
-            # fill_color=COLOR_C,
-            # fill_opacity=0,  # notranjost se pobarva šele v zelenem koraku
-            # stroke_width=7,  # odebeljene stranice c
-        # ).set_z_index(2)
+        # Oznaki a + b (kvadrat se vrne na prvotno mesto, zato q(...) brez premika).
+        top_ref = Line(q(0, s), q(s, s))
+        left_ref = Line(q(0, 0), q(0, s))
+        sum_labels = VGroup(
+            MathTex("a+b", color=UL_GRAY, font_size=44).next_to(top_ref, UP, buff=0.18),
+            MathTex("a+b", color=UL_GRAY, font_size=44).next_to(left_ref, LEFT, buff=0.2),
+        ).set_z_index(4)
 
-        # inner_center = inner_square.get_center()
-        # hypotenuse_segments = [
-            # (point(A, 0), point(0, B)),
-            # (point(A, 0), point(S, A)),
-            # (point(S, A), point(B, S)),
-            # (point(B, S), point(0, B)),
-        # ]
-        # c_labels = VGroup()
-        # for start, end in hypotenuse_segments:
-            # # Oznake c so v notranjosti zelenega kvadrata, da se ne
-            # # prekrivajo z zapisi ab/2 v trikotnikih.
-            # midpoint = (start + end) / 2
-            # inward = inner_center - midpoint
-            # inward = inward / np.linalg.norm(inward)
-            # c_labels.add(
-                # MathTex("c", color=COLOR_C)
-                # .scale(0.75)
-                # .move_to(midpoint + inward * 0.26)
-            # )
-        # c_labels.set_z_index(6)
-        # triangle_label_offsets = [LEFT * 0.12, DOWN * 0.12, RIGHT * 0.12, UP * 0.12]
-        # area_labels_two = VGroup(
-            # MathTex("c^2", color=COLOR_C, font_size=44).move_to(inner_center),
-            # *[
-                # MathTex(r"\frac{ab}{2}", color=COLOR_D, font_size=32).move_to(
-                    # np.mean([point(*vertex) for vertex in vertices], axis=0)
-                    # + offset
-                # )
-                # for vertices, offset in zip(
-                    # triangle_vertices, triangle_label_offsets
-                # )
-            # ],
-        # ).set_z_index(6)
+        method_two_title = heading("2. NAČIN:").to_edge(LEFT, buff=0.6)
+        method_two_note = centered_text(
+            "Ploščino kvadrata lahko\nizračunamo tudi kot",
+            42,
+            UL_GRAY,
+            bold=True,
+        )
+        method_two_note.set_x(0).shift(UP * (5.95 - method_two_note.get_top()[1]))
 
-        # title_four = heading("2. NAČIN:")
-        # area_heading_four = (
-            # centered_text(
-                # "Izračunajmo ploščino\nkvadrata po delih.",
-                # 42,
-                # UL_GRAY,
-                # bold=True,
-            # )
-            # .next_to(title_four, DOWN, buff=0.35)
-            # .set_x(0)
-        # )
-        # formula_two = colored_math(
-            # "P_2=",
-            # "c^2",
-            # "+",
-            # r"4\cdot\frac{ab}{2}",
-            # colors={1: COLOR_C, 3: COLOR_D},
-            # font_size=52,
-        # ).move_to(DOWN * 2.85)
-        # area_note_c = VGroup(
-            # MathTex("c^2", font_size=40, color=COLOR_C),
-            # slovene_text("je ploščina srednjega kvadrata", 29, COLOR_C),
-        # ).arrange(RIGHT, buff=0.15).move_to(DOWN * 3.95)
-        # area_note_triangles = VGroup(
-            # MathTex(r"4\cdot\frac{ab}{2}", font_size=40, color=COLOR_D),
-            # slovene_text("je ploščina štirih trikotnikov", 29, COLOR_D),
-        # ).arrange(RIGHT, buff=0.15).move_to(DOWN * 4.85)
+        # Deli kvadrata: a^2 spodaj levo, ab desno spodaj in levo zgoraj,
+        # b^2 zgoraj desno (skladno z oznakami na spodnji in desni stranici).
+        def part(x, y, w, h, color):
+            return Polygon(
+                q(x, y), q(x + w, y), q(x + w, y + h), q(x, y + h),
+                color=color,
+                fill_color=color,
+                fill_opacity=0.28,
+                stroke_width=3,
+            ).set_z_index(1)
 
-        # # Najprej pospravimo 1. način, kratek premor, nato 2. način.
-        # self.play(
-            # FadeOut(area_labels),
-            # FadeOut(formula_one),
-            # FadeOut(expansion_arcs),
-            # FadeOut(title),
-            # FadeOut(area_heading),
-            # FadeOut(area_pieces, shift=DOWN * 0.15),
-            # run_time=1.0,
-        # )
-        # self.wait(1.2)
-        # # Trikotniki nastanejo z izrisom zelenih stranic c (odebeljene in
-        # # označene); njihova notranjost se pobarva šele v rdečem koraku.
-        # self.add(triangles)
-        # self.play(
-            # FadeIn(title_four),
-            # Create(inner_square),
-            # FadeIn(c_labels, rate_func=squish_rate_func(smooth, 0.5, 1)),
-            # run_time=2.0,
-        # )
-        # self.wait(0.3)
-        # self.play(FadeIn(area_heading_four), run_time=0.9)
-        # self.wait(0.5)
-        # self.play(Write(formula_two[0]), run_time=0.8)
-        # self.wait(0.3)
+        part_a2 = part(0, 0, a_, a_, COLOR_A)
+        part_ab_1 = part(a_, 0, b_, a_, COLOR_D)
+        part_ab_2 = part(0, a_, a_, b_, COLOR_D)
+        part_b2 = part(a_, a_, b_, b_, COLOR_B)
+        part_labels = [
+            MathTex("a^2", color=COLOR_A, font_size=56).move_to(part_a2),
+            MathTex("ab", color=COLOR_D, font_size=48).move_to(part_ab_1),
+            MathTex("ab", color=COLOR_D, font_size=48).move_to(part_ab_2),
+            MathTex("b^2", color=COLOR_B, font_size=50).move_to(part_b2),
+        ]
+        for label in part_labels:
+            label.set_z_index(4)
 
-        # # Zeleno naenkrat: notranjost kvadrata, c^2, člen v formuli in zapis.
-        # self.play(
-            # inner_square.animate.set_fill(COLOR_C, opacity=0.34),
-            # FadeIn(area_labels_two[0]),
-            # Write(formula_two[1]),
-            # FadeIn(area_note_c),
-            # run_time=1.5,
-        # )
-        # self.wait(0.8)
+        # Indeksi: 0 P_2=, 1 (, 2 a, 3 +, 4 b, 5 ), 6 (, 7 a, 8 +, 9 b, 10 ),
+        #          11 =, 12 a^2, 13 +, 14 2ab, 15 +, 16 b^2
+        formula_p2 = colored_math(
+            "P_2=",
+            "(", "a", "+", "b", ")",
+            "(", "a", "+", "b", ")",
+            "=",
+            "a^2", "+", "2ab", "+", "b^2",
+            colors={
+                2: COLOR_A, 4: COLOR_B, 7: COLOR_A, 9: COLOR_B,
+                12: COLOR_A, 14: COLOR_D, 16: COLOR_B,
+            },
+            font_size=48,
+        ).move_to(DOWN * 3.4)
 
-        # # Rdeče naenkrat: trikotniki, ab/2, člen v formuli in zapis.
-        # self.play(
-            # triangles.animate.set_fill(COLOR_D, opacity=0.28),
-            # FadeIn(area_labels_two[1:]),
-            # Write(formula_two[2:]),
-            # FadeIn(area_note_triangles),
-            # run_time=1.5,
-        # )
-        # self.wait(3.0)
+        arc_top_y = formula_p2[1].get_top()[1] + 0.08
+        arc_bottom_y = formula_p2[1].get_bottom()[1] - 0.08
 
-        # # 5. Izenačenje ploščin in poenostavitev
-        # self.play(
-            # FadeOut(
-                # VGroup(
-                    # title_four,
-                    # outer_square,
-                    # side_dimensions,
-                    # side_length_labels,
-                    # triangles,
-                    # inner_square,
-                    # c_labels,
-                    # area_labels_two,
-                    # area_heading_four,
-                    # formula_two,
-                    # area_note_c,
-                    # area_note_triangles,
-                # )
-            # ),
-            # run_time=0.8,
-        # )
-        # title_five = centered_text(
-            # "ENAČIMO OBA IZRAZA\nZA PLOŠČINO",
-            # 43,
-            # UL_RED,
-            # bold=True,
-        # ).move_to(UP * 6.35)
-        # self.play(Write(title_five), run_time=0.7)
+        def expansion_arc(left, right, above: bool) -> ArcBetweenPoints:
+            """Rdeča krivulja, ki poveže dva člena, ki ju zmnožimo."""
+            y = arc_top_y if above else arc_bottom_y
+            return ArcBetweenPoints(
+                np.array([left.get_x(), y, 0]),
+                np.array([right.get_x(), y, 0]),
+                angle=-0.45 * PI if above else 0.45 * PI,
+                color=UL_RED,
+                stroke_width=3.5,
+            ).set_z_index(7)
 
-        # equation_relation = colored_math(
-            # "P_1",
-            # "=",
-            # "P_2",
-            # colors={0: UL_GRAY, 2: UL_GRAY},
-            # font_size=54,
-        # ).move_to(UP * 3.45)
-        # equation_one = colored_math(
-            # "(",
-            # "a",
-            # "+",
-            # "b",
-            # ")^2",
-            # "=",
-            # "c^2",
-            # "+",
-            # r"4\cdot\frac{ab}{2}",
-            # colors={1: COLOR_A, 3: COLOR_B, 6: COLOR_C, 8: COLOR_D},
-            # font_size=44,
-        # ).move_to(UP * 2.25)
-        # equation_two = colored_math(
-            # "a^2",
-            # "+",
-            # "2ab",
-            # "+",
-            # "b^2",
-            # "=",
-            # "c^2",
-            # "+",
-            # "2ab",
-            # colors={
-                # 0: COLOR_A,
-                # 2: COLOR_D,
-                # 4: COLOR_B,
-                # 6: COLOR_C,
-                # 8: COLOR_D,
-            # },
-            # font_size=50,
-        # ).move_to(UP * 1.05)
+        fa1, fb1, fa2, fb2 = formula_p2[2], formula_p2[4], formula_p2[7], formula_p2[9]
+        arc_aa = expansion_arc(fa1, fa2, above=True)
+        arc_ab = expansion_arc(fa1, fb2, above=False)
+        arc_ba = expansion_arc(fb1, fa2, above=False)
+        arc_bb = expansion_arc(fb1, fb2, above=True)
 
-        # self.play(Write(equation_relation), run_time=1.1)
-        # self.wait(0.35)
-        # self.play(Write(equation_one), run_time=1.6)
-        # self.wait(0.35)
-        # self.play(Write(equation_two), run_time=1.6)
+        # Pospravimo 1. način; kvadrat se vrne na prvotno mesto.
+        self.play(
+            FadeOut(removed),
+            ReplacementTransform(method_one_title, method_two_title),
+            VGroup(kept_sides, kept_labels).animate.shift(-figure_shift),
+            gray_sides.animate.shift(-figure_shift).set_color(UL_GRAY),
+            FadeIn(sum_labels),
+            run_time=1.4,
+        )
+        self.wait(0.5)
+        self.play(FadeIn(method_two_note), run_time=0.9)
+        self.wait(0.5)
+        self.play(Write(formula_p2[0]), run_time=0.8)
+        self.wait(0.3)
+        self.play(Write(formula_p2[1:12]), run_time=1.6)
+        self.wait(0.6)
 
-        # subtract_note = slovene_text(
-            # "Na obeh straneh odštejemo 2ab in dobimo:",
-            # 32,
-        # ).move_to(DOWN * 0.25)
-        # self.play(FadeIn(subtract_note), run_time=0.6)
-        # strike_left = Line(
-            # equation_two[2].get_corner(DL) + DOWN * 0.04,
-            # equation_two[2].get_corner(UR) + UP * 0.04,
-            # color=UL_RED,
-            # stroke_width=5,
-        # ).set_z_index(8)
-        # strike_right = Line(
-            # equation_two[8].get_corner(DL) + DOWN * 0.04,
-            # equation_two[8].get_corner(UR) + UP * 0.04,
-            # color=UL_RED,
-            # stroke_width=5,
-        # ).set_z_index(8)
-        # self.play(Create(strike_left), Create(strike_right), run_time=0.7)
-        # self.wait(0.5)
+        # a · a = a^2
+        self.play(Create(arc_aa), run_time=0.8)
+        self.play(
+            Write(formula_p2[12]),
+            FadeIn(part_a2),
+            FadeIn(part_labels[0]),
+            run_time=1.2,
+        )
+        self.wait(0.5)
 
-        # result_formula = colored_math(
-            # "a^2",
-            # "+",
-            # "b^2",
-            # "=",
-            # "c^2",
-            # colors={0: COLOR_A, 2: COLOR_B, 4: COLOR_C},
-            # font_size=76,
-        # ).move_to(DOWN * 2.1)
-        # result_frame = SurroundingRectangle(
-            # result_formula,
-            # color=UL_RED,
-            # buff=0.25,
-            # stroke_width=4,
-        # )
-        # self.play(Write(result_formula), run_time=1.5)
-        # self.play(Create(result_frame), run_time=0.5)
-        # self.wait(2)
+        # a · b + b · a = 2ab
+        self.play(Create(arc_ab), Create(arc_ba), run_time=0.9)
+        self.play(
+            Write(formula_p2[13:15]),
+            FadeIn(part_ab_1),
+            FadeIn(part_ab_2),
+            FadeIn(part_labels[1]),
+            FadeIn(part_labels[2]),
+            run_time=1.2,
+        )
+        self.wait(0.5)
 
-        # # 6. Sklep
-        # self.play(
-            # FadeOut(
-                # VGroup(
-                    # title_five,
-                    # equation_relation,
-                    # equation_one,
-                    # equation_two,
-                    # subtract_note,
-                    # strike_left,
-                    # strike_right,
-                # )
-            # ),
-            # run_time=0.8,
-        # )
-        # title_six = centered_text(
-            # "DOKAZALI SMO\nPITAGOROV IZREK!",
-            # 49,
-            # UL_RED,
-            # bold=True,
-        # ).move_to(UP * 5.35)
-        # final_triangle = final_triangle_template.move_to(UP * 1.2)
-        # smile = VGroup(
-            # Arc(
-                # start_angle=PI,
-                # angle=PI,
-                # radius=0.65,
-                # color=UL_GRAY,
-                # stroke_width=5,
-            # ).move_to(DOWN * 4.1),
-            # Dot(LEFT * 0.3 + DOWN * 3.25, color=UL_GRAY, radius=0.06),
-            # Dot(RIGHT * 0.3 + DOWN * 3.25, color=UL_GRAY, radius=0.06),
-        # ).set_z_index(8)
-        # self.play(
-            # Write(title_six),
-            # FadeIn(final_triangle),
-            # run_time=1.5,
-        # )
-        # self.play(FadeIn(smile), run_time=0.8)
-        # self.wait(6)
+        # b · b = b^2
+        self.play(Create(arc_bb), run_time=0.8)
+        self.play(
+            Write(formula_p2[15:]),
+            FadeIn(part_b2),
+            FadeIn(part_labels[3]),
+            run_time=1.2,
+        )
+        self.wait(2.5)
+
+        # 5. Enačimo oba izraza: c^2 + 2ab = a^2 + 2ab + b^2  ->  c^2 = a^2 + b^2
+        self.play(*[FadeOut(mob) for mob in self.mobjects], run_time=0.8)
+
+        equate_title = centered_text(
+            "ENAČIMO OBA IZRAZA\nZA PLOŠČINO",
+            43,
+            UL_RED,
+            bold=True,
+        ).move_to(UP * 6.35)
+
+        eq_p = colored_math("P_1", "=", "P_2", colors={}, font_size=56).move_to(
+            UP * 4.5
+        )
+        # 0 c^2, 1 +, 2 2ab, 3 =, 4 a^2, 5 +, 6 2ab, 7 +, 8 b^2
+        eq_full = colored_math(
+            "c^2", "+", "2ab", "=", "a^2", "+", "2ab", "+", "b^2",
+            colors={0: COLOR_C, 2: COLOR_D, 4: COLOR_A, 6: COLOR_D, 8: COLOR_B},
+            font_size=52,
+        ).move_to(UP * 3.1)
+        subtract_note = centered_text(
+            "Na obeh straneh odštejemo 2ab:",
+            34,
+            UL_GRAY,
+            bold=True,
+        ).move_to(UP * 1.85)
+        # 0 c^2, 1 +, 2 2ab, 3 -, 4 2ab, 5 =, 6 a^2, 7 +, 8 2ab, 9 +, 10 b^2,
+        # 11 -, 12 2ab
+        eq_sub = colored_math(
+            "c^2", "+", "2ab", "-", "2ab", "=",
+            "a^2", "+", "2ab", "+", "b^2", "-", "2ab",
+            colors={
+                0: COLOR_C, 2: COLOR_D, 4: COLOR_D,
+                6: COLOR_A, 8: COLOR_D, 10: COLOR_B, 12: COLOR_D,
+            },
+            font_size=48,
+            max_width=7.4,  # dovolj odmika od robov zaslona
+        ).move_to(UP * 0.6)
+        eq_result = colored_math(
+            "c^2", "=", "a^2", "+", "b^2",
+            colors={0: COLOR_C, 2: COLOR_A, 4: COLOR_B},
+            font_size=72,
+        ).move_to(DOWN * 1.3)
+        result_frame = SurroundingRectangle(
+            eq_result, color=UL_RED, buff=0.3, stroke_width=5
+        )
+
+        self.play(Write(equate_title), run_time=0.9)
+        self.wait(0.3)
+        self.play(Write(eq_p), run_time=1.0)
+        self.wait(0.6)
+
+        # P_1 -> c^2 + 2ab,  P_2 -> a^2 + 2ab + b^2
+        self.play(
+            TransformFromCopy(eq_p[0], eq_full[0:3]),
+            TransformFromCopy(eq_p[1], eq_full[3]),
+            TransformFromCopy(eq_p[2], eq_full[4:]),
+            run_time=1.6,
+        )
+        self.wait(0.8)
+
+        # Na obeh straneh odštejemo 2ab.
+        self.play(FadeIn(subtract_note), run_time=0.8)
+        self.wait(0.4)
+        line_map = {0: 0, 1: 1, 2: 2, 3: 5, 4: 6, 5: 7, 6: 8, 7: 9, 8: 10}
+        self.play(
+            *[
+                TransformFromCopy(eq_full[src], eq_sub[dst])
+                for src, dst in line_map.items()
+            ],
+            run_time=1.2,
+        )
+        self.wait(0.3)
+        new_terms = VGroup(eq_sub[3:5], eq_sub[11:13])
+        self.play(Write(new_terms), run_time=1.0)
+        self.play(Indicate(new_terms, color=UL_RED, scale_factor=1.25), run_time=0.9)
+        self.wait(0.5)
+
+        # 2ab - 2ab = 0 na vsaki strani: prečrtamo in potemnimo.
+        cancelled = [eq_sub[1:3], eq_sub[3:5], eq_sub[7:9], eq_sub[11:13]]
+        strikes = VGroup(
+            *[
+                Line(
+                    group.get_corner(DL) + DL * 0.05,
+                    group.get_corner(UR) + UR * 0.05,
+                    color=UL_GRAY,
+                    stroke_width=5,
+                ).set_z_index(8)
+                for group in cancelled
+            ]
+        )
+        self.play(Create(strikes), run_time=1.0)
+        self.play(*[group.animate.set_opacity(0.55) for group in cancelled], run_time=0.6)
+        self.wait(0.6)
+
+        # Ostane c^2 = a^2 + b^2
+        result_map = {0: 0, 5: 1, 6: 2, 9: 3, 10: 4}
+        self.play(
+            *[
+                TransformFromCopy(eq_sub[src], eq_result[dst])
+                for src, dst in result_map.items()
+            ],
+            run_time=1.4,
+        )
+        self.play(Create(result_frame), run_time=0.7)
+        self.wait(2.5)
+
+        # 6. Sklep: formula v okvirju ostane, izpeljavo zamenja trikotnik iz 1. kadra.
+        final_title = centered_text(
+            "DOKAZALI SMO\nPITAGOROV IZREK!",
+            46,
+            UL_RED,
+            bold=True,
+        ).move_to(UP * 6.3)
+        closing_triangle = final_triangle_template.copy().move_to(UP * 2.75)
+        derivation = VGroup(eq_p, eq_full, subtract_note, eq_sub, strikes, eq_result)
+        # eq_result ni del izpeljave: sestavljajo ga kopije, ki so že na sceni.
+        derivation.remove(eq_result)
+        smile = VGroup(
+            Arc(
+                start_angle=PI,
+                angle=PI,
+                radius=0.6,
+                color=UL_GRAY,
+                stroke_width=6,
+            ).move_to(DOWN * 4.1),
+            Dot(LEFT * 0.3 + DOWN * 3.3, color=UL_GRAY, radius=0.07),
+            Dot(RIGHT * 0.3 + DOWN * 3.3, color=UL_GRAY, radius=0.07),
+        ).set_z_index(8)
+
+        self.play(
+            ReplacementTransform(equate_title, final_title),
+            FadeOut(derivation),
+            run_time=1.0,
+        )
+        self.play(FadeIn(closing_triangle, scale=0.9), run_time=1.2)
+        self.wait(0.4)
+        self.play(FadeIn(smile, scale=0.8), run_time=0.8)
+        self.wait(3.5)
 
 
 class Thumbnail(Scene):
