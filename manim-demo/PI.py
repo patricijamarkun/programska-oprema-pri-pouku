@@ -12,13 +12,15 @@ config.frame_height = 16
 config.background_color = "#FFFFFF"
 
 
-UL_RED = "#E03127"
-UL_GRAY = "#58595B"
-UL_LIGHT_GRAY = "#E6E7E8"
-COLOR_A = "#40AEAD"
-COLOR_B = "#F25E24"
-COLOR_C = "#00694E"
-COLOR_D = "#E03127"
+
+UL_RED = "#E03127"         # UL rdeča – naslovi, okvir rezultata, loki
+UL_GRAY = "#58595B"        # UL siva – besedilo, pravi kot
+UL_LIGHT_GRAY = "#E6E7E8"  # polnilo trikotnika
+COLOR_A = "#2878AC"        # sinjemodra – kateta a
+COLOR_B = "#F25E24"        # oranžna – kateta b
+COLOR_C = "#00694E"        # zelena – hipotenuza c
+COLOR_D = "#EC61A0"        # rožnata – ab, ab/2, 2ab
+
 
 FONT_NAME = "Univerza Sans"
 ASSET_DIR = Path(__file__).parent / "assets"
@@ -183,11 +185,11 @@ class PitagorovIzrek(Scene):
         self.play(
             FadeIn(question),
             FadeIn(VGroup(triangle_fill, side_a, side_b, side_c, triangle_labels)),
-            run_time=1.2,
+            run_time=1.0,
         )
 
         # Poudarimo pravi kot.
-        self.play(Create(left_angle), run_time=0.6)
+        self.play(Create(left_angle), run_time=0.5)
         self.play(
             Indicate(left_angle, scale_factor=1.8, color=UL_RED),
             Flash(
@@ -197,9 +199,9 @@ class PitagorovIzrek(Scene):
                 flash_radius=0.45,
                 num_lines=10,
             ),
-            run_time=1.3,
+            run_time=1.1,
         )
-        self.wait(0.6)
+        self.wait(0.4)
 
         # Kopija velikega trikotnika za zaključni kader.
         final_triangle_template = VGroup(
@@ -227,7 +229,7 @@ class PitagorovIzrek(Scene):
                 (right_vertex + small_c) / 2 + LEFT * 0.28
             ),
             label_c.animate.scale(0.8).move_to(hyp_mid + inward * 0.32),
-            run_time=1.5,
+            run_time=1.2,
         )
 
         # Kvadrati nad stranicami a, b in c ter sproti formula.
@@ -252,14 +254,14 @@ class PitagorovIzrek(Scene):
                 .set_z_index(4)
             )
             # Najprej cel kvadrat, nato zapis v njem (in hkrati v formuli).
-            self.play(ReplacementTransform(flat, square), run_time=1.2)
-            self.play(Write(square_label), Write(part), run_time=1.0)
-            self.wait(0.5)
+            self.play(ReplacementTransform(flat, square), run_time=1.0)
+            self.play(Write(square_label), Write(part), run_time=0.8)
+            self.wait(0.4)
             side_squares.add(square)
             square_labels.add(square_label)
 
-        self.play(Write(title), run_time=1.0)
-        self.wait(1.8)
+        self.play(FadeIn(title), run_time=0.8)  # naenkrat, ne po črkah
+        self.wait(1.6)
 
         # 2. Štiri pravokotne trikotnike zložimo v kvadrat s stranico a + b
         self.play(
@@ -387,14 +389,16 @@ class PitagorovIzrek(Scene):
 
             return UpdateFromAlphaFunc(VGroup(tri, labels), update)
 
+        # Zgornji zapis po višini na sredini med vrhom videa in trikotniki.
+        triangles_top = VGroup(four_triangles, four_labels).get_top()[1]
         top_text = centered_text(
-            "4 pravokotne trikotnike\ns katetama a in b\nter hipotenuzo c",
+            "4 pravokotne trikotnike",
             40,
             UL_GRAY,
             bold=True,
-        ).move_to(UP * 5.9)
+        ).move_to(UP * (config.frame_height / 2 + triangles_top) / 2)
         bottom_text = centered_text(
-            "zložimo v večji kvadrat\ns stranico a + b.",
+            "zložimo v kvadrat\ns stranico a + b.",
             40,
             UL_GRAY,
             bold=True,
@@ -465,13 +469,12 @@ class PitagorovIzrek(Scene):
             return group
 
         method_one_title = heading("1. NAČIN:").to_edge(LEFT, buff=0.6)
-        note_intro = note_text("Ploščino kvadrata sestavljata:", UL_GRAY)
         note_c = note_text("ploščina notranjega kvadrata", COLOR_C, "c^2")
         note_triangles = note_text(
             "ploščine 4 enakih\npravokotnih trikotnikov", COLOR_D, r"\frac{ab}{2}"
         )
         # Zapisi drug pod drugim, zgornji rob tik pod naslovom.
-        notes = VGroup(note_intro, note_c, note_triangles).arrange(DOWN, buff=0.18)
+        notes = VGroup(note_c, note_triangles).arrange(DOWN, buff=0.18)
         notes.set_x(0).shift(UP * (5.95 - notes.get_top()[1]))
 
         # Obarvanje lika: zelen notranji kvadrat in rdeči trikotniki.
@@ -503,22 +506,22 @@ class PitagorovIzrek(Scene):
             )
             for last in [r"4\cdot\frac{ab}{2}", r"\frac{4}{2}\cdot ab", "2ab"]
         ]
-        p1_line = p1_versions[0].move_to(DOWN * 4.15)
+        # Kvadrat ostane na istem mestu; formula je pod njim z enakim
+        # razmikom, kot je med zapisi in kvadratom.
+        figure = VGroup(four_triangles, four_labels)
+        gap = notes.get_bottom()[1] - figure.get_top()[1]
+        p1_line = p1_versions[0]
+        p1_line.shift(
+            UP * (figure.get_bottom()[1] - gap - p1_line.get_top()[1])
+            + LEFT * p1_line.get_x()
+        )
         for version in p1_versions[1:]:
             version.shift(p1_line[1].get_center() - version[1].get_center())
 
-        # Kvadrat se malo spusti, da je nad njim prostor za tri zapise.
-        figure_shift = DOWN * 0.85
-        VGroup(inner_square_c, inner_label, triangle_area_labels).shift(figure_shift)
-
-        self.play(
-            FadeOut(area_two_ways),
-            VGroup(four_triangles, four_labels).animate.shift(figure_shift),
-            run_time=0.8,
-        )
+        self.play(FadeOut(area_two_ways), run_time=0.8)
         self.play(Write(method_one_title), run_time=0.8)
         self.wait(0.3)
-        self.play(FadeIn(note_intro), Write(p1_line[:2]), run_time=1.0)
+        self.play(Write(p1_line[:2]), run_time=1.0)
         self.wait(0.8)
 
         # Zeleno: notranji kvadrat c^2
@@ -587,13 +590,6 @@ class PitagorovIzrek(Scene):
         ).set_z_index(4)
 
         method_two_title = heading("2. NAČIN:").to_edge(LEFT, buff=0.6)
-        method_two_note = centered_text(
-            "Ploščino kvadrata lahko\nizračunamo tudi kot",
-            42,
-            UL_GRAY,
-            bold=True,
-        )
-        method_two_note.set_x(0).shift(UP * (5.95 - method_two_note.get_top()[1]))
 
         # Deli kvadrata: a^2 spodaj levo, ab desno spodaj in levo zgoraj,
         # b^2 zgoraj desno (skladno z oznakami na spodnji in desni stranici).
@@ -654,17 +650,14 @@ class PitagorovIzrek(Scene):
         arc_ba = expansion_arc(fb1, fa2, above=False)
         arc_bb = expansion_arc(fb1, fb2, above=True)
 
-        # Pospravimo 1. način; kvadrat se vrne na prvotno mesto.
+        # Pospravimo 1. način; kvadrat ostane na istem mestu.
         self.play(
             FadeOut(removed),
             ReplacementTransform(method_one_title, method_two_title),
-            VGroup(kept_sides, kept_labels).animate.shift(-figure_shift),
-            gray_sides.animate.shift(-figure_shift).set_color(UL_GRAY),
+            gray_sides.animate.set_color(UL_GRAY),
             FadeIn(sum_labels),
             run_time=1.4,
         )
-        self.wait(0.5)
-        self.play(FadeIn(method_two_note), run_time=0.9)
         self.wait(0.5)
         self.play(Write(formula_p2[0]), run_time=0.8)
         self.wait(0.3)
@@ -776,36 +769,63 @@ class PitagorovIzrek(Scene):
         )
         self.wait(0.3)
         new_terms = VGroup(eq_sub[3:5], eq_sub[11:13])
-        self.play(Write(new_terms), run_time=1.0)
-        self.play(Indicate(new_terms, color=UL_RED, scale_factor=1.25), run_time=0.9)
-        self.wait(0.5)
+        self.play(Write(new_terms), run_time=1.0)  # brez povečevanja
+        self.wait(0.8)
 
-        # 2ab - 2ab = 0 na vsaki strani: prečrtamo in potemnimo.
-        cancelled = [eq_sub[1:3], eq_sub[3:5], eq_sub[7:9], eq_sub[11:13]]
-        strikes = VGroup(
-            *[
-                Line(
-                    group.get_corner(DL) + DL * 0.05,
-                    group.get_corner(UR) + UR * 0.05,
-                    color=UL_GRAY,
-                    stroke_width=5,
-                ).set_z_index(8)
-                for group in cancelled
-            ]
-        )
-        self.play(Create(strikes), run_time=1.0)
-        self.play(*[group.animate.set_opacity(0.55) for group in cancelled], run_time=0.6)
-        self.wait(0.6)
-
-        # Ostane c^2 = a^2 + b^2
-        result_map = {0: 0, 5: 1, 6: 2, 9: 3, 10: 4}
+        # 2ab - 2ab = 0 na vsaki strani: para se spusti pod vrstico, se združi
+        # v 0 in izgine (nad vrstico je sivi zapis).
+        pairs = [
+            (VGroup(eq_sub[1], eq_sub[2]), VGroup(eq_sub[3], eq_sub[4])),  # levo
+            (VGroup(eq_sub[7], eq_sub[8]), VGroup(eq_sub[11], eq_sub[12])),  # desno
+        ]
+        meet_points = [
+            (plus.get_center() + minus.get_center()) / 2 + DOWN * 0.8
+            for plus, minus in pairs
+        ]
         self.play(
             *[
-                TransformFromCopy(eq_sub[src], eq_result[dst])
-                for src, dst in result_map.items()
+                term.animate.move_to(point)
+                for (plus, minus), point in zip(pairs, meet_points)
+                for term in (plus, minus)
             ],
-            run_time=1.4,
+            run_time=1.0,
         )
+        zeros = [
+            MathTex("0", color=UL_GRAY, font_size=48).move_to(point)
+            for point in meet_points
+        ]
+        self.play(
+            *[
+                ReplacementTransform(VGroup(plus, minus), zero)
+                for (plus, minus), zero in zip(pairs, zeros)
+            ],
+            run_time=0.6,
+        )
+        self.wait(0.3)
+        self.play(*[FadeOut(zero, scale=0.4) for zero in zeros], run_time=0.5)
+
+        # Preostanek vrstice se strne: c^2 = a^2 + b^2
+        eq_short = colored_math(
+            "c^2", "=", "a^2", "+", "b^2",
+            colors={0: COLOR_C, 2: COLOR_A, 4: COLOR_B},
+            font_size=48,
+        )
+        eq_short.scale(eq_sub[0].height / eq_short[0].height)
+        eq_short.shift(
+            UP * (eq_sub[5].get_y() - eq_short[1].get_y()) + LEFT * eq_short.get_x()
+        )
+        short_map = {0: 0, 5: 1, 6: 2, 9: 3, 10: 4}
+        self.play(
+            *[
+                ReplacementTransform(eq_sub[src], eq_short[dst])
+                for src, dst in short_map.items()
+            ],
+            run_time=0.9,
+        )
+        self.wait(0.5)
+
+        # Rezultat povečan v okvirju.
+        self.play(TransformFromCopy(eq_short, eq_result), run_time=1.2)
         self.play(Create(result_frame), run_time=0.7)
         self.wait(2.5)
 
@@ -817,9 +837,7 @@ class PitagorovIzrek(Scene):
             bold=True,
         ).move_to(UP * 6.3)
         closing_triangle = final_triangle_template.copy().move_to(UP * 2.75)
-        derivation = VGroup(eq_p, eq_full, subtract_note, eq_sub, strikes, eq_result)
-        # eq_result ni del izpeljave: sestavljajo ga kopije, ki so že na sceni.
-        derivation.remove(eq_result)
+        derivation = VGroup(eq_p, eq_full, subtract_note, eq_short)
         # Pitagora (slike pripravi assets/pripravi_pitagoro.py).
         pythagoras = {
             name: ImageMobject(str(ASSET_DIR / f"pitagora_{name}.png"))
